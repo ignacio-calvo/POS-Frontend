@@ -1,8 +1,8 @@
 import { FC, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { CustomerDto } from '../DTOs/CustomerDto';
-import { Fab, Backdrop, CircularProgress, Snackbar, Alert } from '@mui/material';
-import { Add } from '@mui/icons-material';
+import { Fab, Backdrop, CircularProgress, Snackbar, Alert, TextField, InputAdornment } from '@mui/material';
+import { Add, Search } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import CustomerForm from './CustomerForm';
 import CustomerTable from './CustomerTable';
@@ -19,6 +19,7 @@ const FloatingActionButton = styled(Fab)(({ theme }) => ({
 
 export const CustomerComponent: FC<CustomerComponentProps> = ({ baseUrl }) => {
     const [customers, setCustomers] = useState<CustomerDto[]>([]);
+    const [filteredCustomers, setFilteredCustomers] = useState<CustomerDto[]>([]);
     const [customer, setCustomer] = useState<Partial<CustomerDto>>({});
     const [isEditing, setIsEditing] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -28,6 +29,7 @@ export const CustomerComponent: FC<CustomerComponentProps> = ({ baseUrl }) => {
         message: '',
         severity: 'success',
     });
+    const [searchQuery, setSearchQuery] = useState('');
 
     const apiUrl = `${baseUrl}/api/customers`;
 
@@ -36,6 +38,7 @@ export const CustomerComponent: FC<CustomerComponentProps> = ({ baseUrl }) => {
         try {
             const response = await axios.get<CustomerDto[]>(apiUrl);
             setCustomers(response.data);
+            setFilteredCustomers(response.data);
         } catch (error) {
             console.error('Error fetching customers:', error);
         } finally {
@@ -125,9 +128,34 @@ export const CustomerComponent: FC<CustomerComponentProps> = ({ baseUrl }) => {
         setSnackbar({ ...snackbar, open: false });
     };
 
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const query = e.target.value.toLowerCase();
+        setSearchQuery(query);
+        const filtered = customers.filter(customer =>
+            customer.firstName.toLowerCase().includes(query) ||
+            customer.lastName.toLowerCase().includes(query) ||
+            customer.email.toLowerCase().includes(query)
+        );
+        setFilteredCustomers(filtered);
+    };
+
     return (
         <div>
             <h2>Customers</h2>
+            <TextField
+                label="Search Customers"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <Search />
+                        </InputAdornment>
+                    ),
+                }}
+                fullWidth
+                margin="normal"
+            />
             <FloatingActionButton color="primary" onClick={openCreateDrawer}>
                 <Add />
             </FloatingActionButton>
@@ -139,7 +167,7 @@ export const CustomerComponent: FC<CustomerComponentProps> = ({ baseUrl }) => {
                 onChange={handleInputChange}
                 onSubmit={handleSubmit}
             />
-            <CustomerTable customers={customers} onEdit={editCustomer} onDelete={deleteCustomer} />
+            <CustomerTable customers={filteredCustomers} onEdit={editCustomer} onDelete={deleteCustomer} />
             <Backdrop open={loading} style={{ zIndex: 1300 }}>
                 <CircularProgress color="inherit" />
             </Backdrop>
