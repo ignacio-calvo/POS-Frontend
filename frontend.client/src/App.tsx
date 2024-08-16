@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { Products } from './components/Products';
 import { ProductDto } from './DTOs/ProductDto';
 import { getProducts, getCategoriesWithProducts } from './services/productService';
-import { Categories } from './components/Categories';
 import { CategoryDto } from './DTOs/CategoryDto';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import React from 'react';
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { Home } from './pages/Home';
+import { Navbar} from './Navbar';
+import { Customers } from './pages/Customers';
 
 
 function App() {
@@ -57,17 +58,18 @@ function App() {
     }, []);
 
     return (
-
         <div>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-
-
-                <Categories categories={categories} />
-
-
-            </ThemeProvider>
-            
+                <Router>
+                    <Navbar/>
+                    <Routes>
+                        <Route path="/" element={<Home categories={categories} />} />
+                        <Route path="/Customers" element={<Customers baseUrl={"https://localhost:7030"} />} />
+                        <Route path="*" element={<Home categories={categories} />} />
+                    </Routes>
+                </Router>            
+            </ThemeProvider>            
         </div>
     );
 }

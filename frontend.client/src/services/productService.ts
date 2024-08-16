@@ -2,7 +2,7 @@ import axios from "axios";
 import { ProductDto } from "../DTOs/ProductDto";
 import { CategoryDto } from "../DTOs/CategoryDto";
 
-const productUrl = 'http://localhost:5256/api/Products'; // returns all products with sizes for each product
+const productUrl = 'https://localhost:7230/api/Products'; // returns all products with sizes for each product
 
 export const getProducts = async (): Promise<ProductDto[]> => {
     try {
@@ -14,7 +14,7 @@ export const getProducts = async (): Promise<ProductDto[]> => {
     }
 };
 
-const categoriesWithProductsUrl = 'http://localhost:5256/api/categories/products-sizes'; // returns all categories including products within them and also sizes for each product
+const categoriesWithProductsUrl = 'https://localhost:7230/api/categories/products-sizes'; // returns all categories including products within them and also sizes for each product
 
 export const getCategoriesWithProducts = async (): Promise<CategoryDto[]> => {
     try {
