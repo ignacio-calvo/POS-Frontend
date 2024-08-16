@@ -2,7 +2,10 @@ import axios from "axios";
 import { ProductDto } from "../DTOs/ProductDto";
 import { CategoryDto } from "../DTOs/CategoryDto";
 
-const productUrl = 'https://localhost:7230/api/Products'; // returns all products with sizes for each product
+const PRODUCTS_API_URL: string = import.meta.env.VITE_PRODUCTS_API_URL || "";
+const productUrl = PRODUCTS_API_URL + '/api/Products'; // returns all products with sizes for each product
+const categoriesWithProductsUrl = PRODUCTS_API_URL + '/api/categories/products-sizes'; // returns all categories including products within them and also sizes for each product
+
 
 export const getProducts = async (): Promise<ProductDto[]> => {
     try {
@@ -13,8 +16,6 @@ export const getProducts = async (): Promise<ProductDto[]> => {
         throw error;
     }
 };
-
-const categoriesWithProductsUrl = 'https://localhost:7230/api/categories/products-sizes'; // returns all categories including products within them and also sizes for each product
 
 export const getCategoriesWithProducts = async (): Promise<CategoryDto[]> => {
     try {
