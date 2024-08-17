@@ -18,17 +18,21 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
 }));
 
+const StyledTableHeaderCell = styled(StyledTableCell)({
+    fontWeight: 'bold',
+});
+
 const CustomerTable: FC<CustomerTableProps> = ({ customers, onEdit, onDelete }) => (
     <StyledTableContainer component={Paper}>
         <Table>
             <TableHead>
                 <TableRow>
-                    <StyledTableCell>ID</StyledTableCell>
-                    <StyledTableCell>First Name</StyledTableCell>
-                    <StyledTableCell>Last Name</StyledTableCell>
-                    <StyledTableCell>Email</StyledTableCell>
-                    <StyledTableCell>Phone Number</StyledTableCell>
-                    <StyledTableCell>Actions</StyledTableCell>
+                    <StyledTableHeaderCell>ID</StyledTableHeaderCell>
+                    <StyledTableHeaderCell>First Name</StyledTableHeaderCell>
+                    <StyledTableHeaderCell>Last Name</StyledTableHeaderCell>
+                    <StyledTableHeaderCell>Email</StyledTableHeaderCell>
+                    <StyledTableHeaderCell>Phone Number</StyledTableHeaderCell>
+                    <StyledTableHeaderCell>Actions</StyledTableHeaderCell>
                 </TableRow>
             </TableHead>
             <TableBody>

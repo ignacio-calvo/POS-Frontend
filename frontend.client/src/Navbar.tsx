@@ -25,7 +25,9 @@ export const Navbar: FC = () => {
     return (
         <AppBar position="fixed">
             <Toolbar>
-                <img className="logoBanner" src="./img/POSitive-Banner.png" alt="Logo" />
+                <Link to="/">
+                    <img className="logoBanner" src="./img/POSitive-Banner.png" alt="Logo" />
+                </Link>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
                 <Box>
                     <Button

@@ -89,6 +89,8 @@ th, td {
 .sizeButtonContainer {
     margin-top: 2rem;
     display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+    align-items: center; /* Center the buttons vertically */
     flex-wrap: nowrap; /* Ensure buttons are displayed side by side */
     overflow-x: auto; /* Allow horizontal scrolling if needed */
 }
