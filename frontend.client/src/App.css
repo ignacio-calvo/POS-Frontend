@@ -41,10 +41,20 @@ th, td {
     vertical-align: middle;
 }
 
-.mainContainer {    
-    padding: 1rem; /* Adjust padding as needed */
-    margin-top: 0; /* Ensure no top margin */
-    width: 100%; /* Ensure it takes the full width */
+.mainContainer {
+    padding-top: 5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    margin-top: 0;
+    width: 100%;
+    height: 100vh; /* Use full height of the viewport */
+    overflow-y: auto; /* Allow vertical scrolling */
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 .customButton {
@@ -81,4 +91,17 @@ th, td {
     display: flex;
     flex-wrap: nowrap; /* Ensure buttons are displayed side by side */
     overflow-x: auto; /* Allow horizontal scrolling if needed */
+}
+
+/* Ensure the NavBar is fixed at the top */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure it stays on top of other content */
+}
+
+/* Add padding to the top of the main content to account for the NavBar height */
+.main-content {
+    padding-top: 60px; /* Adjust this value based on the height of your NavBar */
 }

@@ -4,7 +4,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Home } from './pages/Home';
+import { Menu } from './pages/Menu';
 import { Navbar } from './Navbar';
 import { Customers } from './pages/Customers';
 import useProduct from './hooks/useProduct';
@@ -38,10 +38,10 @@ function App() {
                 <Navbar />
                 <Box component="main" className="mainContainer">
                     <Routes>
-                        <Route path="/" element={<Home categories={categories || []} />} />
+                        <Route path="/" element={<Menu categories={categories || []} />} />
                         <Route path="/Customers" element={<Customers baseUrl={CUSTOMERS_API_URL} />} />
                         <Route path="/Categories" element={<CategoriesComponent baseUrl={PRODUCTS_API_URL} />} />
-                        <Route path="*" element={<Home categories={categories || []} />} />
+                        <Route path="*" element={<Menu categories={categories || []} />} />
                     </Routes>
                 </Box>
             </Router>

@@ -33,7 +33,7 @@ export const Navbar: FC = () => {
                         component={Link}
                         to="/"
                     >
-                        Home
+                        Menu
                     </Button>
                     <IconButton
                         color={location.pathname === "/Customers" || location.pathname === "/Categories" ? "secondary" : "inherit"}
