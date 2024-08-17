@@ -107,3 +107,27 @@ th, td {
 .main-content {
     padding-top: 60px; /* Adjust this value based on the height of your NavBar */
 }
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure it stays on top of other content */
+}
+
+.navbar-logo {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-menu {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar-settings {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+}
