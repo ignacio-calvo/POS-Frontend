@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { TextField, Drawer, IconButton, AppBar, Toolbar, Typography, Button, InputAdornment } from '@mui/material';
 import { ArrowBack, Phone, Email, Business, Home, LocationCity, LocationOn, MailOutline } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
+import { CustomerDto } from '../DTOs/CustomerDto';
 
 interface CustomerFormProps {
     customer: Partial<CustomerDto>;

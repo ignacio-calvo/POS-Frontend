@@ -1,4 +1,6 @@
-﻿#root {
+﻿/* App.css */
+
+#root {
     max-width: 1280px;
     margin: 0 auto;
     padding: 2rem;
@@ -23,11 +25,60 @@ th, td {
     align-items: center;
     flex-direction: row; /* Change to row layout on larger screens */
 }
+
 .itemIcon {
     width: 3em;
     margin-right: 0.5em;
 }
+
 .itemText {
     margin: 0;
     padding: 10px;
+}
+
+.logoBanner {
+    height: 2em;
+    vertical-align: middle;
+}
+
+.mainContainer {    
+    padding: 1rem; /* Adjust padding as needed */
+    margin-top: 0; /* Ensure no top margin */
+    width: 100%; /* Ensure it takes the full width */
+}
+
+.customButton {
+    text-transform: none;
+}
+
+.productCard {
+    min-width: 300px; /* Ensure the card has a minimum width */
+    max-width: 345px;
+    margin: auto; /* Center the card */
+}
+
+.productCardMedia {
+    height: 140px;
+}
+
+.productCardContent {
+    margin-top: 2rem;
+}
+
+.buttonGroup {
+    display: flex;
+    flex-wrap: wrap; /* Allow buttons to wrap */
+    justify-content: center; /* Center the buttons */
+}
+
+.sizeButton {
+    text-transform: none;
+    margin: 0.5rem; /* Add margin for better spacing */
+}
+
+.sizeButtonContainer {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: nowrap; /* Ensure buttons are displayed side by side */
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
 }

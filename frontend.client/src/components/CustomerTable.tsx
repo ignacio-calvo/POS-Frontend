@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { CustomerDto } from '../DTOs/CustomerDto';
 
 interface CustomerTableProps {
     customers: CustomerDto[];
