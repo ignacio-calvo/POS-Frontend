@@ -53,4 +53,3 @@ export const MenuProductComponent: FC<ProductDto> = ({ id, name, productImageUrl
         </Card>
     );
 };
-

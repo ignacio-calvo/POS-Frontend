@@ -18,17 +18,21 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
 }));
 
+const StyledTableHeaderCell = styled(StyledTableCell)({
+    fontWeight: 'bold',
+});
+
 const CategoriesTable: FC<CategoriesTableProps> = ({ categories, onEdit, onDelete }) => {
     return (
         <StyledTableContainer component={Paper}>
             <Table>
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell>ID</StyledTableCell>
-                        <StyledTableCell>Name</StyledTableCell>
-                        <StyledTableCell>Description</StyledTableCell>
-                        <StyledTableCell>Image</StyledTableCell>
-                        <StyledTableCell>Actions</StyledTableCell>
+                        <StyledTableHeaderCell>ID</StyledTableHeaderCell>
+                        <StyledTableHeaderCell>Name</StyledTableHeaderCell>
+                        <StyledTableHeaderCell>Description</StyledTableHeaderCell>
+                        <StyledTableHeaderCell>Image</StyledTableHeaderCell>
+                        <StyledTableHeaderCell>Actions</StyledTableHeaderCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

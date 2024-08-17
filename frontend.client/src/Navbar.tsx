@@ -2,13 +2,13 @@ import { FC, useState, MouseEvent } from 'react';
 import { Link, useLocation } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
+import './App.css'; // Import the CSS file
 
 export const Navbar: FC = () => {
     const location = useLocation();
@@ -23,11 +23,14 @@ export const Navbar: FC = () => {
     };
 
     return (
-        <AppBar position="fixed">
+        <AppBar position="fixed" className="navbar">
             <Toolbar>
-                <img className="logoBanner" src="./img/POSitive-Banner.png" alt="Logo" />
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
-                <Box>
+                <Box className="navbar-logo">
+                    <Link to="/">
+                        <img className="logoBanner" src="./img/POSitive-Banner.png" alt="Logo" />
+                    </Link>
+                </Box>
+                <Box className="navbar-menu">
                     <Button
                         color={location.pathname === "/" ? "secondary" : "inherit"}
                         component={Link}
@@ -35,6 +38,8 @@ export const Navbar: FC = () => {
                     >
                         Menu
                     </Button>
+                </Box>
+                <Box className="navbar-settings">
                     <IconButton
                         color={location.pathname === "/Customers" || location.pathname === "/Categories" ? "secondary" : "inherit"}
                         onClick={handleMenuOpen}
