@@ -1,11 +1,11 @@
 import { FC, useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
-import { CustomerDto } from '../DTOs/CustomerDto';
-import { Fab, Backdrop, CircularProgress, Snackbar, Alert } from '@mui/material';
-import { Add } from '@mui/icons-material';
+import { Fab, Backdrop, CircularProgress, Snackbar, Alert, TextField, InputAdornment } from '@mui/material';
+import { Add, Search } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import CustomerForm from './CustomerForm';
 import CustomerTable from './CustomerTable';
+import { CustomerDto } from '../DTOs/CustomerDto';
+import { fetchCustomers, createCustomer, updateCustomer, deleteCustomer } from '../services/customerService';
 
 interface CustomerComponentProps {
     baseUrl: string;
@@ -19,6 +19,7 @@ const FloatingActionButton = styled(Fab)(({ theme }) => ({
 
 export const CustomerComponent: FC<CustomerComponentProps> = ({ baseUrl }) => {
     const [customers, setCustomers] = useState<CustomerDto[]>([]);
+    const [filteredCustomers, setFilteredCustomers] = useState<CustomerDto[]>([]);
     const [customer, setCustomer] = useState<Partial<CustomerDto>>({});
     const [isEditing, setIsEditing] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -28,24 +29,24 @@ export const CustomerComponent: FC<CustomerComponentProps> = ({ baseUrl }) => {
         message: '',
         severity: 'success',
     });
+    const [searchQuery, setSearchQuery] = useState('');
 
-    const apiUrl = `${baseUrl}/api/customers`;
-
-    const fetchCustomers = useCallback(async () => {
+    const fetchCustomersData = useCallback(async () => {
         setLoading(true);
         try {
-            const response = await axios.get<CustomerDto[]>(apiUrl);
-            setCustomers(response.data);
+            const data = await fetchCustomers(baseUrl);
+            setCustomers(data);
+            setFilteredCustomers(data);
         } catch (error) {
             console.error('Error fetching customers:', error);
         } finally {
             setLoading(false);
         }
-    }, [apiUrl]);
+    }, [baseUrl]);
 
     useEffect(() => {
-        fetchCustomers();
-    }, [fetchCustomers]);
+        fetchCustomersData();
+    }, [fetchCustomersData]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -57,49 +58,19 @@ export const CustomerComponent: FC<CustomerComponentProps> = ({ baseUrl }) => {
         setLoading(true);
         try {
             if (isEditing) {
-                await updateCustomer(customer as CustomerDto);
+                await updateCustomer(baseUrl, customer as CustomerDto);
                 setSnackbar({ open: true, message: 'Customer updated successfully', severity: 'success' });
             } else {
-                await createCustomer(customer as CustomerDto);
+                await createCustomer(baseUrl, customer as CustomerDto);
                 setSnackbar({ open: true, message: 'Customer created successfully', severity: 'success' });
             }
             setCustomer({});
             setIsEditing(false);
             setIsDrawerOpen(false);
-            fetchCustomers();
+            fetchCustomersData();
         } catch (error) {
             console.error('Error submitting customer:', error);
             setSnackbar({ open: true, message: 'Error submitting customer', severity: 'error' });
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const createCustomer = async (newCustomer: CustomerDto) => {
-        try {
-            await axios.post(apiUrl, newCustomer);
-        } catch (error) {
-            console.error('Error creating customer:', error);
-            throw error;
-        }
-    };
-
-    const updateCustomer = async (updatedCustomer: CustomerDto) => {
-        try {
-            await axios.put(`${apiUrl}/${updatedCustomer.id}`, updatedCustomer);
-        } catch (error) {
-            console.error('Error updating customer:', error);
-            throw error;
-        }
-    };
-
-    const deleteCustomer = async (id: number) => {
-        setLoading(true);
-        try {
-            await axios.delete(`${apiUrl}/${id}`);
-            fetchCustomers();
-        } catch (error) {
-            console.error('Error deleting customer:', error);
         } finally {
             setLoading(false);
         }
@@ -125,9 +96,34 @@ export const CustomerComponent: FC<CustomerComponentProps> = ({ baseUrl }) => {
         setSnackbar({ ...snackbar, open: false });
     };
 
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const query = e.target.value.toLowerCase();
+        setSearchQuery(query);
+        const filtered = customers.filter(customer =>
+            customer.firstName.toLowerCase().includes(query) ||
+            customer.lastName.toLowerCase().includes(query) ||
+            customer.email.toLowerCase().includes(query)
+        );
+        setFilteredCustomers(filtered);
+    };
+
     return (
         <div>
             <h2>Customers</h2>
+            <TextField
+                label="Search Customers"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <Search />
+                        </InputAdornment>
+                    ),
+                }}
+                fullWidth
+                margin="normal"
+            />
             <FloatingActionButton color="primary" onClick={openCreateDrawer}>
                 <Add />
             </FloatingActionButton>
@@ -139,7 +135,7 @@ export const CustomerComponent: FC<CustomerComponentProps> = ({ baseUrl }) => {
                 onChange={handleInputChange}
                 onSubmit={handleSubmit}
             />
-            <CustomerTable customers={customers} onEdit={editCustomer} onDelete={deleteCustomer} />
+            <CustomerTable customers={filteredCustomers} onEdit={editCustomer} onDelete={(id) => deleteCustomer(baseUrl, id).then(fetchCustomersData)} />
             <Backdrop open={loading} style={{ zIndex: 1300 }}>
                 <CircularProgress color="inherit" />
             </Backdrop>

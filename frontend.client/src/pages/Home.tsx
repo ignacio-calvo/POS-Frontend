@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Categories } from '../components/Categories';
+import { MenuCategoriesComponent } from '../components/MenuCategoriesComponent';
 import { CategoryDto } from '../DTOs/CategoryDto';
 
 
@@ -10,7 +10,7 @@ interface Props {
 export const Home: FC<Props> = ({ categories }) => {
     return (
         <div>
-            <Categories categories={categories} />
+            <MenuCategoriesComponent categories={categories} />
         </div>
     );
 };
