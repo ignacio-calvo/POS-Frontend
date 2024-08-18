@@ -1,5 +1,5 @@
 import { FC, useState, MouseEvent } from 'react';
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
@@ -8,11 +8,15 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import { logout } from './services/authService'; // Import the logout function
 import './App.css'; // Import the CSS file
 
 export const Navbar: FC = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [loginAnchorEl, setLoginAnchorEl] = useState<null | HTMLElement>(null);
 
     const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -21,6 +25,22 @@ export const Navbar: FC = () => {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
+
+    const handleLoginMenuOpen = (event: MouseEvent<HTMLElement>) => {
+        setLoginAnchorEl(event.currentTarget);
+    };
+
+    const handleLoginMenuClose = () => {
+        setLoginAnchorEl(null);
+    };
+
+    const handleLogout = () => {
+        logout();
+        handleLoginMenuClose();
+        navigate('/');
+    };
+
+    const isAuthenticated = !!localStorage.getItem('jwtToken');
 
     return (
         <AppBar position="fixed" className="navbar">
@@ -65,6 +85,31 @@ export const Navbar: FC = () => {
                         >
                             Categories
                         </MenuItem>
+                    </Menu>
+                    <IconButton
+                        color="inherit"
+                        onClick={handleLoginMenuOpen}
+                    >
+                        <AccountCircle />
+                    </IconButton>
+                    <Menu
+                        anchorEl={loginAnchorEl}
+                        open={Boolean(loginAnchorEl)}
+                        onClose={handleLoginMenuClose}
+                    >
+                        {isAuthenticated ? (
+                            <MenuItem onClick={handleLogout}>
+                                Log out
+                            </MenuItem>
+                        ) : (
+                            <MenuItem
+                                component={Link}
+                                to="/login"
+                                onClick={handleLoginMenuClose}
+                            >
+                                Log in
+                            </MenuItem>
+                        )}
                     </Menu>
                 </Box>
             </Toolbar>

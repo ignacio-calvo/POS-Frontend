@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TextField, IconButton, Box, AppBar, Toolbar, Typography, Fab, Backdrop, CircularProgress, Snackbar, Alert, InputAdornment } from '@mui/material';
 import { Add, Search } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import { fetchCategorys, updateCategory, deleteCategory } from '../services/categoryService';
+import { fetchCategories, updateCategory, deleteCategory } from '../services/categoryService';
 import { CategoryDto } from '../DTOs/CategoryDto';
 import CategoriesTable from './CategoriesTable';
 import CategoriesForm from './CategoriesForm';
@@ -30,7 +30,7 @@ export const CategoriesComponent: React.FC<{ baseUrl: string }> = ({ baseUrl }) 
         const loadCategories = async () => {
             setLoading(true);
             try {
-                const data = await fetchCategorys(baseUrl);
+                const data = await fetchCategories(baseUrl);
                 setCategories(data);
                 setFilteredCategories(data);
             } catch (error) {
@@ -60,7 +60,7 @@ export const CategoriesComponent: React.FC<{ baseUrl: string }> = ({ baseUrl }) 
         setLoading(true);
         try {
             await deleteCategory(baseUrl, id);
-            const data = await fetchCategorys(baseUrl);
+            const data = await fetchCategories(baseUrl);
             setCategories(data);
             setFilteredCategories(data);
             setSnackbar({ open: true, message: 'Category deleted successfully', severity: 'success' });
@@ -77,7 +77,7 @@ export const CategoriesComponent: React.FC<{ baseUrl: string }> = ({ baseUrl }) 
         try {
             await updateCategory(baseUrl, category);
             setIsFormOpen(false);
-            const data = await fetchCategorys(baseUrl);
+            const data = await fetchCategories(baseUrl);
             setCategories(data);
             setFilteredCategories(data);
             setSnackbar({ open: true, message: 'Category saved successfully', severity: 'success' });

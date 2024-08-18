@@ -10,6 +10,7 @@ import { Customers } from './pages/Customers';
 import useProduct from './hooks/useProduct';
 import Box from '@mui/material/Box'; // Import Box from Material-UI
 import { CategoriesComponent } from './components/CategoriesComponent';
+import LoginForm from './components/LoginForm'; // Import the LoginForm component
 
 function App() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)'); //used for establishing theme based on OS/Browser preference of the user
@@ -41,6 +42,7 @@ function App() {
                         <Route path="/" element={<Menu categories={categories || []} />} />
                         <Route path="/Customers" element={<Customers baseUrl={CUSTOMERS_API_URL} />} />
                         <Route path="/Categories" element={<CategoriesComponent baseUrl={PRODUCTS_API_URL} />} />
+                        <Route path="/login" element={<LoginForm />} /> {/* Add the login route */}
                         <Route path="*" element={<Menu categories={categories || []} />} />
                     </Routes>
                 </Box>
