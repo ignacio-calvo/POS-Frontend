@@ -15,7 +15,7 @@ import './App.css'; // Import the CSS file
 export const Navbar: FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); 
     const [loginAnchorEl, setLoginAnchorEl] = useState<null | HTMLElement>(null);
 
     const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
@@ -101,15 +101,24 @@ export const Navbar: FC = () => {
                             <MenuItem onClick={handleLogout}>
                                 Log out
                             </MenuItem>
-                        ) : (
+                        ) : [
                             <MenuItem
+                                key="login"
                                 component={Link}
                                 to="/login"
                                 onClick={handleLoginMenuClose}
                             >
                                 Log in
+                            </MenuItem>,
+                            <MenuItem
+                                key="register"
+                                component={Link}
+                                to="/register"
+                                onClick={handleLoginMenuClose}
+                            >
+                                Register
                             </MenuItem>
-                        )}
+                        ]}
                     </Menu>
                 </Box>
             </Toolbar>
