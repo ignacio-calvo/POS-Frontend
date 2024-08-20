@@ -7,7 +7,7 @@ interface Props {
     categories: CategoryDto[];
 }
 
-export const Menu: FC<Props> = ({ categories }) => {
+export const OrderMenu: FC<Props> = ({ categories }) => {
     return (
         <div>
             <MenuCategoriesComponent categories={categories} />

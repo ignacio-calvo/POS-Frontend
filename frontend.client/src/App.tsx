@@ -4,13 +4,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Menu } from './pages/Menu';
+import { OrderMenu } from './pages/OrderMenu';
 import { Navbar } from './Navbar';
 import { Customers } from './pages/Customers';
 import useProduct from './hooks/useProduct';
 import Box from '@mui/material/Box'; // Import Box from Material-UI
 import { CategoriesComponent } from './components/CategoriesComponent';
 import LoginForm from './components/LoginForm'; // Import the LoginForm component
+import CustomerRegistrationForm from './components/CustomerRegistrationForm';
 
 function App() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)'); //used for establishing theme based on OS/Browser preference of the user
@@ -27,7 +28,7 @@ function App() {
         [prefersDarkMode],
     );
 
-    const { products, categories, loading, error } = useProduct();
+    const { categories, loading, error } = useProduct();
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
@@ -39,11 +40,12 @@ function App() {
                 <Navbar />
                 <Box component="main" className="mainContainer">
                     <Routes>
-                        <Route path="/" element={<Menu categories={categories || []} />} />
+                        <Route path="/" element={<OrderMenu categories={categories || []} />} />
                         <Route path="/Customers" element={<Customers baseUrl={CUSTOMERS_API_URL} />} />
                         <Route path="/Categories" element={<CategoriesComponent baseUrl={PRODUCTS_API_URL} />} />
-                        <Route path="/login" element={<LoginForm />} /> {/* Add the login route */}
-                        <Route path="*" element={<Menu categories={categories || []} />} />
+                        <Route path="/login" element={<LoginForm />} />
+                        <Route path="/register" element={<CustomerRegistrationForm />} />
+                        <Route path="*" element={<OrderMenu categories={categories || []} />} />
                     </Routes>
                 </Box>
             </Router>
