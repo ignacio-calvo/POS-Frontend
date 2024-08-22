@@ -7,10 +7,17 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import '../App.css'; // Import the CSS file
+import Backdrop from '@mui/material/Backdrop';
+import Snackbar from '@mui/material/Snackbar';
+import { useOrder } from '../contexts/OrderContext';
+import { OrderLineDto } from '../DTOs/OrderLineDto';
+import '../App.css'; 
 
 export const MenuProductComponent: FC<ProductDto> = ({ id, name, productImageUrl, sizes, description, productType }) => {
     const [selectedSize, setSelectedSize] = useState<number | null>(null);
+    const [openBackdrop, setOpenBackdrop] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const { addOrderLine } = useOrder();
 
     useEffect(() => {
         const defaultSize = sizes.find(size => size.defaultSize);
@@ -24,13 +31,43 @@ export const MenuProductComponent: FC<ProductDto> = ({ id, name, productImageUrl
     };
 
     const handleAddToCart = () => {
-        // Add to cart logic here
-        console.log(`Product ${id} added to cart`);
+        if (selectedSize !== null) {
+            const selectedSizeObj = sizes.find(size => size.id === selectedSize);
+            if (selectedSizeObj) {
+                const orderLine: OrderLineDto = {
+                    id: 0, 
+                    sequence: 1, 
+                    deleted: false,
+                    status: undefined, // Set appropriate status 
+                    quantity: 1,
+                    product: {
+                        id,
+                        name,
+                        description,
+                        productImageUrl,
+                        productType,
+                        sizes: [selectedSizeObj] // Only include the selected size
+                    },
+                    beingModified: false,
+                    comments: undefined, 
+                };
+                addOrderLine(orderLine);
+                setOpenBackdrop(true);
+                setOpenSnackbar(true);
+                setTimeout(() => setOpenBackdrop(false), 1000); // Close backdrop after 1 second
+                console.log(`Product ${id} added to cart with price ${selectedSizeObj.price}`);
+            }
+        } else {
+            console.log('Please select a size');
+        }
     };
 
     const handleCustomize = () => {
-        // Customize logic here
         console.log(`Product ${id} customization started`);
+    };
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
     };
 
     return (
@@ -56,7 +93,7 @@ export const MenuProductComponent: FC<ProductDto> = ({ id, name, productImageUrl
                             variant={selectedSize === size.id ? 'contained' : 'outlined'}
                             onClick={() => handleSizeChange(size.id)}
                         >
-                            {size.name} <br /> ${size.price?.toFixed(2) ?? "N/A"}
+                            {size.name} <br /> ${size.price.toFixed(2)}
                         </Button>
                     ))}
                 </Box>
@@ -71,6 +108,18 @@ export const MenuProductComponent: FC<ProductDto> = ({ id, name, productImageUrl
                     )}
                 </Box>
             </CardContent>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={openBackdrop}
+            >
+                <Typography variant="h6">Adding to cart...</Typography>
+            </Backdrop>
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={3000}
+                onClose={handleCloseSnackbar}
+                message="Product added to cart"
+            />
         </Card>
     );
 };
