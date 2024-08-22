@@ -46,6 +46,7 @@ export const MenuProductsComponent: FC<Props> = ({ products }) => {
                             sizes={product.sizes}
                             description={product.description}
                             displayOrder={product.displayOrder}
+                            productType={product.productType}
                         />
                     </Grid>
                 ))}

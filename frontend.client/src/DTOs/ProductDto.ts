@@ -1,21 +1,22 @@
 import { ProductSizeDto } from "./ProductSizeDto";
+import { ProductTypeDto } from "./ProductTypeDto";
 
 export interface ProductDto {
     id: number;
-    name: string;
-    description?: string;
-    orderDescription?: string;
-    receiptDescription?: string;
-    labelDescription?: string;
-    kitchenDescription?: string;
+    name: string | null;
+    sizes: ProductSizeDto[];
+    description: string | null;
+    orderDescription: string | null;
+    receiptDescription: string | null;
+    labelDescription: string | null;
+    kitchenDescription: string | null;
     displayOrder: number;
-    isTaxable?: number;
-    isPrepared?: boolean;
-    isPizza?: boolean;
-    isSpecialtyPizza?: boolean;
+    isTaxable: number | null;
+    isPrepared: boolean | null;
+    isPizza: boolean | null;
+    isSpecialtyPizza: boolean | null;
     statusCode: number;
     shouldPromptForSize: boolean;
-    productTypeCode: number;
-    productImageUrl?: string;
-    sizes: ProductSizeDto[];
+    productType: ProductTypeDto;
+    productImageUrl: string | null;
 }
