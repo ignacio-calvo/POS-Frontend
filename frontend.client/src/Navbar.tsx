@@ -9,15 +9,18 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import ShoppingCart from '@mui/icons-material/ShoppingCart'; // Import the ShoppingCart icon
-import { logout } from './services/authService'; // Import the logout function
-import './App.css'; // Import the CSS file
+import ShoppingCart from '@mui/icons-material/ShoppingCart';
+import Badge from '@mui/material/Badge'; 
+import { logout } from './services/authService';
+import { useOrder } from './contexts/OrderContext'; 
+import './App.css';
 
 export const Navbar: FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); 
     const [loginAnchorEl, setLoginAnchorEl] = useState<null | HTMLElement>(null);
+    const { order } = useOrder(); 
 
     const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -42,6 +45,7 @@ export const Navbar: FC = () => {
     };
 
     const isAuthenticated = !!localStorage.getItem('jwtToken');
+    const productCount = order?.orderLines?.length || 0; 
 
     return (
         <AppBar position="fixed" className="navbar">
@@ -126,7 +130,9 @@ export const Navbar: FC = () => {
                         component={Link}
                         to="/Cart"
                     >
-                        <ShoppingCart />
+                        <Badge badgeContent={productCount} color="secondary">
+                            <ShoppingCart />
+                        </Badge>
                     </IconButton>
                 </Box>
             </Toolbar>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, IconButton, Box, AppBar, Toolbar, Typography, Fab, Backdrop, CircularProgress, Snackbar, Alert, InputAdornment } from '@mui/material';
+import { TextField, Fab, Backdrop, CircularProgress, Snackbar, Alert, InputAdornment } from '@mui/material';
 import { Add, Search } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { fetchCategories, updateCategory, deleteCategory } from '../services/categoryService';
