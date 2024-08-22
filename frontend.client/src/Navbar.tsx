@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import ShoppingCart from '@mui/icons-material/ShoppingCart'; // Import the ShoppingCart icon
 import { logout } from './services/authService'; // Import the logout function
 import './App.css'; // Import the CSS file
 
@@ -120,6 +121,13 @@ export const Navbar: FC = () => {
                             </MenuItem>
                         ]}
                     </Menu>
+                    <IconButton
+                        color={location.pathname === "/Cart" ? "secondary" : "inherit"}
+                        component={Link}
+                        to="/Cart"
+                    >
+                        <ShoppingCart />
+                    </IconButton>
                 </Box>
             </Toolbar>
         </AppBar>

@@ -12,6 +12,7 @@ import Box from '@mui/material/Box'; // Import Box from Material-UI
 import { CategoriesComponent } from './components/CategoriesComponent';
 import LoginForm from './components/LoginForm'; // Import the LoginForm component
 import CustomerRegistrationForm from './components/CustomerRegistrationForm';
+import { Cart } from './pages/Cart';
 
 function App() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)'); //used for establishing theme based on OS/Browser preference of the user
@@ -43,6 +44,7 @@ function App() {
                         <Route path="/" element={<OrderMenu categories={categories || []} />} />
                         <Route path="/Customers" element={<Customers baseUrl={CUSTOMERS_API_URL} />} />
                         <Route path="/Categories" element={<CategoriesComponent baseUrl={PRODUCTS_API_URL} />} />
+                        <Route path="/Cart" element={<Cart />} />
                         <Route path="/login" element={<LoginForm />} />
                         <Route path="/register" element={<CustomerRegistrationForm />} />
                         <Route path="*" element={<OrderMenu categories={categories || []} />} />
