@@ -1,0 +1,10 @@
+{
+  "id": "Id",
+  "firstName": "Nombre",
+  "lastName": "Apellido",
+  "email": "Email",
+  "phoneNumber": "Teléfono",
+  "actions": "Acciones",
+  "edit": "Editar",
+  "delete": "Borrar"
+}

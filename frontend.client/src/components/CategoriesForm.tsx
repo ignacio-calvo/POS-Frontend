@@ -3,6 +3,7 @@ import { TextField, Drawer, IconButton, AppBar, Toolbar, Typography, Button, Inp
 import { ArrowBack, Description, Image, Label } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { CategoryDto } from '../DTOs/CategoryDto';
+import { useTranslation } from 'react-i18next';
 
 interface CategoriesFormProps {
     category: Partial<CategoryDto>;
@@ -23,6 +24,7 @@ const Form = styled('form')(({ theme }) => ({
 }));
 
 const CategoriesForm: FC<CategoriesFormProps> = ({ category, isEditing, isOpen, onClose, onChange, onSubmit }) => {
+    const { t } = useTranslation('CategoriesForm');
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -30,7 +32,7 @@ const CategoriesForm: FC<CategoriesFormProps> = ({ category, isEditing, isOpen, 
         const newErrors: { [key: string]: string } = { ...errors };
 
         if ((name === 'name' || name === 'description') && !value.trim()) {
-            newErrors[name] = 'This field is required';
+            newErrors[name] = t('fieldRequired');
         } else {
             delete newErrors[name];
         }
@@ -43,11 +45,11 @@ const CategoriesForm: FC<CategoriesFormProps> = ({ category, isEditing, isOpen, 
         const newErrors: { [key: string]: string } = {};
 
         if (!category.name?.trim()) {
-            newErrors.name = 'Name is required';
+            newErrors.name = t('nameRequired');
         }
 
         if (!category.description?.trim()) {
-            newErrors.description = 'Description is required';
+            newErrors.description = t('descriptionRequired');
         }
 
         if (Object.keys(newErrors).length > 0) {
@@ -66,16 +68,16 @@ const CategoriesForm: FC<CategoriesFormProps> = ({ category, isEditing, isOpen, 
                         <ArrowBack />
                     </IconButton>
                     <Typography variant="h6" style={{ flexGrow: 1 }}>
-                        {isEditing ? 'Update Category' : 'Create Category'}
+                        {isEditing ? t('updateCategory') : t('createCategory')}
                     </Typography>
                     <Button color="inherit" onClick={handleSubmit}>
-                        Save
+                        {t('save')}
                     </Button>
                 </Toolbar>
             </AppBar>
             <Form onSubmit={handleSubmit}>
                 <TextField
-                    label="Name"
+                    label={t('name')}
                     name="name"
                     value={category.name || ''}
                     onChange={onChange}
@@ -92,7 +94,7 @@ const CategoriesForm: FC<CategoriesFormProps> = ({ category, isEditing, isOpen, 
                     }}
                 />
                 <TextField
-                    label="Description"
+                    label={t('description')}
                     name="description"
                     value={category.description || ''}
                     onChange={onChange}
@@ -109,7 +111,7 @@ const CategoriesForm: FC<CategoriesFormProps> = ({ category, isEditing, isOpen, 
                     }}
                 />
                 <TextField
-                    label="Image URL"
+                    label={t('imageUrl')}
                     name="imageUrl"
                     value={category.imageUrl || ''}
                     onChange={onChange}

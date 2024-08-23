@@ -1,0 +1,11 @@
+{
+  "loginTitle": "Inicio de Sesión",
+  "email": "Email",
+  "password": "Contraseña",
+  "login": "Iniciar sesión",
+  "loginFailed": "El inicio de sesión falló. Chequee sus credenciales.",
+  "loginSuccessful": "Inicio de sesión exitoso",
+  "enterValidEmail": "Ingrese un correo electrónico válido",
+  "emailRequired": "Ingrese un Email",
+  "passwordRequired": "Ingrese una contraseña"
+}

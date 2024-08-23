@@ -3,6 +3,7 @@ import { OrderLineDto } from '../DTOs/OrderLineDto';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useOrder } from '../contexts/OrderContext';
+import { useTranslation } from 'react-i18next';
 
 interface CartDetailProps {
     orderLines: OrderLineDto[];
@@ -24,6 +25,7 @@ const StyledTableHeaderCell = styled(StyledTableCell)({
 });
 
 const CartDetailComponent: React.FC<CartDetailProps> = ({ orderLines }) => {
+    const { t } = useTranslation('CartDetailComponent');
     const { order, removeOrderLine } = useOrder();
 
     return (
@@ -32,12 +34,12 @@ const CartDetailComponent: React.FC<CartDetailProps> = ({ orderLines }) => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <StyledTableHeaderCell>Quantity</StyledTableHeaderCell>
-                            <StyledTableHeaderCell>Product</StyledTableHeaderCell>
-                            <StyledTableHeaderCell>Size</StyledTableHeaderCell>
-                            <StyledTableHeaderCell>Price</StyledTableHeaderCell>
-                            <StyledTableHeaderCell>Subtotal</StyledTableHeaderCell>
-                            <StyledTableHeaderCell>Actions</StyledTableHeaderCell>
+                            <StyledTableHeaderCell>{t('quantity')}</StyledTableHeaderCell>
+                            <StyledTableHeaderCell>{t('product')}</StyledTableHeaderCell>
+                            <StyledTableHeaderCell>{t('size')}</StyledTableHeaderCell>
+                            <StyledTableHeaderCell>{t('price')}</StyledTableHeaderCell>
+                            <StyledTableHeaderCell>{t('subtotal')}</StyledTableHeaderCell>
+                            <StyledTableHeaderCell>{t('actions')}</StyledTableHeaderCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -66,7 +68,7 @@ const CartDetailComponent: React.FC<CartDetailProps> = ({ orderLines }) => {
                                         color="secondary"
                                         onClick={() => removeOrderLine(orderLine.id)}
                                     >
-                                        Remove
+                                        {t('remove')}
                                     </Button>
                                 </StyledTableCell>
                             </TableRow>
@@ -75,7 +77,7 @@ const CartDetailComponent: React.FC<CartDetailProps> = ({ orderLines }) => {
                 </Table>
             </StyledTableContainer>
             <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-                <Typography variant="h6">Total: ${order.finalTotal.toFixed(2)}</Typography>
+                <Typography variant="h6">{ t('total') }: ${order.finalTotal.toFixed(2)}</Typography>
             </Box>
         </Box>
     );

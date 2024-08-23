@@ -7,7 +7,8 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { login } from '../services/authService'; // Import the login function
+import { login } from '../services/authService';
+import { useTranslation } from 'react-i18next';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -16,16 +17,18 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const validationSchema = yup.object({
-    email: yup.string().email('Enter a valid email').required('Email is required'),
-    password: yup.string().required('Password is required')
-});
-
 const LoginForm: React.FC = () => {
+    
+    const { t } = useTranslation('LoginForm');
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState('');
     const [severity, setSeverity] = React.useState<'success' | 'error'>('success');
     const navigate = useNavigate();
+
+    const validationSchema = yup.object({
+        email: yup.string().email(t("enterValidEmail")).required(t('emailRequired')),
+        password: yup.string().required(t('passwordRequired'))
+    });
 
     const formik = useFormik({
         initialValues: {
@@ -36,14 +39,14 @@ const LoginForm: React.FC = () => {
         onSubmit: async (values) => {
             try {
                 await login(values.email, values.password);
-                setMessage('Login successful!');
+                setMessage(t("loginSuccessful"));
                 setSeverity('success');
                 setOpen(true);
                 setTimeout(() => {
                     navigate('/');
                 }, 2000); // Redirect after 2 seconds
             } catch {
-                setMessage('Login failed. Please check your credentials.');
+                setMessage(t("loginFailed"));
                 setSeverity('error');
                 setOpen(true);
             }
@@ -59,13 +62,13 @@ const LoginForm: React.FC = () => {
 
     return (
         <Box sx={{ maxWidth: 400, mx: 'auto', mt: 4 }}>
-            <h2>Login</h2>
+            <h2>{t('loginTitle')}</h2>
             <form onSubmit={formik.handleSubmit}>
                 <TextField
                     fullWidth
                     id="email"
                     name="email"
-                    label="Email"
+                    label={t("Email")}
                     value={formik.values.email}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -77,7 +80,7 @@ const LoginForm: React.FC = () => {
                     fullWidth
                     id="password"
                     name="password"
-                    label="Password"
+                    label={t("password")}
                     type="password"
                     value={formik.values.password}
                     onChange={formik.handleChange}
@@ -87,7 +90,7 @@ const LoginForm: React.FC = () => {
                     margin="normal"
                 />
                 <Button color="primary" variant="contained" fullWidth type="submit" sx={{ mt: 2 }}>
-                    Login
+                    {t("login")}
                 </Button>
             </form>
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>

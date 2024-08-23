@@ -12,8 +12,10 @@ import Snackbar from '@mui/material/Snackbar';
 import { useOrder } from '../contexts/OrderContext';
 import { OrderLineDto } from '../DTOs/OrderLineDto';
 import '../App.css'; 
+import { useTranslation } from 'react-i18next';
 
 export const MenuProductComponent: FC<ProductDto> = ({ id, name, productImageUrl, sizes, description, productType }) => {
+    const { t } = useTranslation('MenuProductComponent');
     const [selectedSize, setSelectedSize] = useState<number | null>(null);
     const [openBackdrop, setOpenBackdrop] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -99,11 +101,11 @@ export const MenuProductComponent: FC<ProductDto> = ({ id, name, productImageUrl
                 </Box>
                 <Box sx={{ mt: 2 }}>
                     <Button variant="contained" color="primary" onClick={handleAddToCart}>
-                        Add to cart
+                        {t("addtocart")}
                     </Button>
                     {productType !== ProductTypeDto.Generic && (
                         <Button variant="outlined" color="secondary" onClick={handleCustomize} sx={{ ml: 2 }}>
-                            Customize
+                            {t("customize")}
                         </Button>
                     )}
                 </Box>
@@ -112,13 +114,13 @@ export const MenuProductComponent: FC<ProductDto> = ({ id, name, productImageUrl
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={openBackdrop}
             >
-                <Typography variant="h6">Adding to cart...</Typography>
+                <Typography variant="h6">{t("addingtocart")}</Typography>
             </Backdrop>
             <Snackbar
                 open={openSnackbar}
                 autoHideDuration={3000}
                 onClose={handleCloseSnackbar}
-                message="Product added to cart"
+                message={t("productadded")}
             />
         </Card>
     );

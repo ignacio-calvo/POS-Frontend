@@ -4,12 +4,14 @@ import { ProductDto } from '../DTOs/ProductDto';
 import { TextField, InputAdornment, Grid } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import '../App.css';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     products: ProductDto[];
 }
 
 export const MenuProductsComponent: FC<Props> = ({ products }) => {
+    const { t } = useTranslation('MenuProductsComponent');
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +25,7 @@ export const MenuProductsComponent: FC<Props> = ({ products }) => {
     return (
         <div>
             <TextField
-                label="Search Products"
+                label={t('searchProducts') }
                 value={searchQuery}
                 onChange={handleFilterChange}
                 InputProps={{

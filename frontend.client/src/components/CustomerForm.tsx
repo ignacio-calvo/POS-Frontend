@@ -3,6 +3,7 @@ import { TextField, Drawer, IconButton, AppBar, Toolbar, Typography, Button, Inp
 import { ArrowBack, Phone, Email, Business, Home, LocationCity, LocationOn, MailOutline } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { CustomerDto } from '../DTOs/CustomerDto';
+import { useTranslation } from 'react-i18next';
 
 interface CustomerFormProps {
     customer: Partial<CustomerDto>;
@@ -23,6 +24,8 @@ const Form = styled('form')(({ theme }) => ({
 }));
 
 const CustomerForm: FC<CustomerFormProps> = ({ customer, isEditing, isOpen, onClose, onChange, onSubmit }) => {
+
+    const { t } = useTranslation('CustomerForm');
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     const validateEmail = (email: string) => {
@@ -40,19 +43,19 @@ const CustomerForm: FC<CustomerFormProps> = ({ customer, isEditing, isOpen, onCl
         const newErrors: { [key: string]: string } = { ...errors };
 
         if (name === 'email' && !validateEmail(value)) {
-            newErrors.email = 'Invalid email address';
+            newErrors.email = t('invalidEmail');
         } else if (name === 'email') {
             delete newErrors.email;
         }
 
         if (name === 'phoneNumber' && !validatePhoneNumber(value)) {
-            newErrors.phoneNumber = 'Invalid phone number';
+            newErrors.phoneNumber = t('invalidPhoneNumber');
         } else if (name === 'phoneNumber') {
             delete newErrors.phoneNumber;
         }
 
         if ((name === 'firstName' || name === 'lastName') && !value.trim()) {
-            newErrors[name] = 'This field is required';
+            newErrors[name] = t('fieldRequired');
         } else if (name === 'firstName' || name === 'lastName') {
             delete newErrors[name];
         }
@@ -65,19 +68,19 @@ const CustomerForm: FC<CustomerFormProps> = ({ customer, isEditing, isOpen, onCl
         const newErrors: { [key: string]: string } = {};
 
         if (!customer.firstName?.trim()) {
-            newErrors.firstName = 'First name is required';
+            newErrors.firstName = t('firstNameRequired');
         }
 
         if (!customer.lastName?.trim()) {
-            newErrors.lastName = 'Last name is required';
+            newErrors.lastName = t('lastNameRequired');
         }
 
         if (!validateEmail(customer.email || '')) {
-            newErrors.email = 'Invalid email address';
+            newErrors.email = t('invalidEmail');
         }
 
         if (!validatePhoneNumber(customer.phoneNumber || '')) {
-            newErrors.phoneNumber = 'Invalid phone number';
+            newErrors.phoneNumber = t('invalidPhoneNumber');
         }
 
         if (Object.keys(newErrors).length > 0) {
@@ -96,16 +99,16 @@ const CustomerForm: FC<CustomerFormProps> = ({ customer, isEditing, isOpen, onCl
                         <ArrowBack />
                     </IconButton>
                     <Typography variant="h6" style={{ flexGrow: 1 }}>
-                        {isEditing ? 'Update Customer' : 'Create Customer'}
+                        {isEditing ? t('updateCustomer') : t('createCustomer')}
                     </Typography>
                     <Button color="inherit" onClick={handleSubmit}>
-                        Save
+                        {t('save')}
                     </Button>
                 </Toolbar>
             </AppBar>
             <Form onSubmit={handleSubmit}>
                 <TextField
-                    label="First Name"
+                    label={t('firstName')}
                     name="firstName"
                     value={customer.firstName || ''}
                     onChange={onChange}
@@ -115,7 +118,7 @@ const CustomerForm: FC<CustomerFormProps> = ({ customer, isEditing, isOpen, onCl
                     helperText={errors.firstName}
                 />
                 <TextField
-                    label="Last Name"
+                    label={t('lastName')}
                     name="lastName"
                     value={customer.lastName || ''}
                     onChange={onChange}
@@ -125,7 +128,7 @@ const CustomerForm: FC<CustomerFormProps> = ({ customer, isEditing, isOpen, onCl
                     helperText={errors.lastName}
                 />
                 <TextField
-                    label="Phone Number"
+                    label={t('phoneNumber')}
                     name="phoneNumber"
                     value={customer.phoneNumber || ''}
                     onChange={onChange}
@@ -142,7 +145,7 @@ const CustomerForm: FC<CustomerFormProps> = ({ customer, isEditing, isOpen, onCl
                     }}
                 />
                 <TextField
-                    label="Phone Extension"
+                    label={t('phoneExtension')}
                     name="phoneExtension"
                     value={customer.phoneExtension || ''}
                     onChange={onChange}
@@ -155,7 +158,7 @@ const CustomerForm: FC<CustomerFormProps> = ({ customer, isEditing, isOpen, onCl
                     }}
                 />
                 <TextField
-                    label="Email"
+                    label={t('email')}
                     name="email"
                     type="email"
                     value={customer.email || ''}
@@ -173,7 +176,7 @@ const CustomerForm: FC<CustomerFormProps> = ({ customer, isEditing, isOpen, onCl
                     }}
                 />
                 <TextField
-                    label="Company Name"
+                    label={t('companyName')}
                     name="companyName"
                     value={customer.companyName || ''}
                     onChange={onChange}
@@ -186,7 +189,7 @@ const CustomerForm: FC<CustomerFormProps> = ({ customer, isEditing, isOpen, onCl
                     }}
                 />
                 <TextField
-                    label="Address Line 1"
+                    label={ t('addressLine1') }
                     name="addressLine1"
                     value={customer.addressLine1 || ''}
                     onChange={onChange}
@@ -199,7 +202,7 @@ const CustomerForm: FC<CustomerFormProps> = ({ customer, isEditing, isOpen, onCl
                     }}
                 />
                 <TextField
-                    label="Street Number"
+                    label={ t('streetNumber') }
                     name="streetNumber"
                     value={customer.streetNumber || ''}
                     onChange={onChange}
@@ -212,7 +215,7 @@ const CustomerForm: FC<CustomerFormProps> = ({ customer, isEditing, isOpen, onCl
                     }}
                 />
                 <TextField
-                    label="Address Line 2"
+                    label={t('addressLine2')}
                     name="addressLine2"
                     value={customer.addressLine2 || ''}
                     onChange={onChange}
@@ -225,7 +228,7 @@ const CustomerForm: FC<CustomerFormProps> = ({ customer, isEditing, isOpen, onCl
                     }}
                 />
                 <TextField
-                    label="State"
+                    label={ t('state') }
                     name="state"
                     value={customer.state || ''}
                     onChange={onChange}
@@ -238,7 +241,7 @@ const CustomerForm: FC<CustomerFormProps> = ({ customer, isEditing, isOpen, onCl
                     }}
                 />
                 <TextField
-                    label="City"
+                    label={t('city')}
                     name="city"
                     value={customer.city || ''}
                     onChange={onChange}
@@ -251,7 +254,7 @@ const CustomerForm: FC<CustomerFormProps> = ({ customer, isEditing, isOpen, onCl
                     }}
                 />
                 <TextField
-                    label="Postal Code"
+                    label={ t('postalCode') }
                     name="postalCode"
                     value={customer.postalCode || ''}
                     onChange={onChange}

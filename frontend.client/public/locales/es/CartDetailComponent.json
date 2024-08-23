@@ -1,0 +1,10 @@
+{
+  "quantity": "Cantidad",
+  "product": "Producto",
+  "price": "Precio",
+  "size": "Tamaño",
+  "subtotal": "Subtotal",
+  "total": "Total",
+  "actions": "Acciones",
+  "remove": "Eliminar"
+}

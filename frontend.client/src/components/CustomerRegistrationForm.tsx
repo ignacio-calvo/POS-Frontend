@@ -9,32 +9,35 @@ import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import { useTranslation } from 'react-i18next';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const validationSchema = yup.object({
-    firstName: yup.string().required('First name is required'),
-    lastName: yup.string().required('Last name is required'),
-    email: yup.string().email('Enter a valid email').required('Email is required'),
-    password: yup.string()
-        .min(6, 'Password should be of minimum 6 characters length')
-        .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-        .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-        .matches(/\d/, 'Password must contain at least one digit')
-        .matches(/[@$!%*?&#]/, 'Password must contain at least one special character')
-        .required('Password is required'),
-    repeatPassword: yup.string()
-        .oneOf([yup.ref('password'), null], 'Passwords must match')
-        .required('Repeat password is required')
-});
-
 const CustomerRegistrationForm: React.FC = () => {
+    const { t } = useTranslation('CustomerRegistrationForm');
     const [open, setOpen] = React.useState<boolean>(false);
     const [snackbarMessage, setSnackbarMessage] = React.useState<string>('');
     const [severity, setSeverity] = React.useState<'success' | 'error'>('success');
     const navigate = useNavigate();
+    
+
+    const validationSchema = yup.object({
+        firstName: yup.string().required(t('lastNameRequired')),
+        lastName: yup.string().required(t('lastNameRequired')),
+        email: yup.string().email(t('emailInvalid')).required(t('emailRequired')),
+        password: yup.string()
+            .min(6, t('passwordLength'))
+            .matches(/[A-Z]/, t('passwordUppercase'))
+            .matches(/[a-z]/, t('passwordLowercase'))
+            .matches(/\d/, t('passwordNumber'))
+            .matches(/[@$!%*?&#]/, t('passwordSpecial'))
+            .required(t('passwordRequired')),
+        repeatPassword: yup.string()
+            .oneOf([yup.ref('password'), null], t('passwordMatch'))
+            .required(t('passwordRepeatRequired'))
+    });
 
     const formik = useFormik({
         initialValues: {
@@ -48,7 +51,7 @@ const CustomerRegistrationForm: React.FC = () => {
         onSubmit: async (values) => {
             try {
                 const response = await register(values.firstName, values.lastName, values.email, values.password);
-                setSnackbarMessage('Registration successful!');
+                setSnackbarMessage(t('registrationSuccessful'));
                 setSeverity('success');
                 setOpen(true);
 
@@ -60,11 +63,11 @@ const CustomerRegistrationForm: React.FC = () => {
                 }, 2000);
             } catch (error) {
                 if (axios.isAxiosError(error)) {
-                    setSnackbarMessage(error.response?.data?.Message || 'An error occurred');
+                    setSnackbarMessage(error.response?.data?.Message || t('errorOcurred'));
                     setSeverity('error');
                     setOpen(true);
                 } else {
-                    setSnackbarMessage('An error occurred');
+                    setSnackbarMessage(t('errorOcurred'));
                     setSeverity('error');
                     setOpen(true);
                 }
@@ -81,13 +84,13 @@ const CustomerRegistrationForm: React.FC = () => {
 
     return (
         <Box sx={{ maxWidth: 400, mx: 'auto', mt: 4 }}>
-            <h2>Customer Registration</h2>
+            <h2>{t('title')}</h2>
             <form onSubmit={formik.handleSubmit}>
                 <TextField
                     fullWidth
                     id="firstName"
                     name="firstName"
-                    label="First Name"
+                    label={t('firstName')}
                     value={formik.values.firstName}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -99,7 +102,7 @@ const CustomerRegistrationForm: React.FC = () => {
                     fullWidth
                     id="lastName"
                     name="lastName"
-                    label="Last Name"
+                    label={t('lastName')}
                     value={formik.values.lastName}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -111,7 +114,7 @@ const CustomerRegistrationForm: React.FC = () => {
                     fullWidth
                     id="email"
                     name="email"
-                    label="Email"
+                    label={t('email')}
                     value={formik.values.email}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -123,7 +126,7 @@ const CustomerRegistrationForm: React.FC = () => {
                     fullWidth
                     id="password"
                     name="password"
-                    label="Password"
+                    label={t('password')}
                     type="password"
                     value={formik.values.password}
                     onChange={formik.handleChange}
@@ -136,7 +139,7 @@ const CustomerRegistrationForm: React.FC = () => {
                     fullWidth
                     id="repeatPassword"
                     name="repeatPassword"
-                    label="Repeat Password"
+                    label={t('repeatPassword')}
                     type="password"
                     value={formik.values.repeatPassword}
                     onChange={formik.handleChange}
@@ -146,7 +149,7 @@ const CustomerRegistrationForm: React.FC = () => {
                     margin="normal"
                 />
                 <Button color="primary" variant="contained" fullWidth type="submit" sx={{ mt: 2 }}>
-                    Register
+                    {t('register')}
                 </Button>
             </form>
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>

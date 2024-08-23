@@ -1,0 +1,11 @@
+{
+  "loginTitle": "Log in",
+  "email": "Email",
+  "password": "Password",
+  "login": "Log in",
+  "loginFailed": "Login failed. Please check your credentials.",
+  "loginSuccessful": "Login successful!",
+  "enterValidEmail": "Enter a valid email",
+  "emailRequired": "Email is required",
+  "passwordRequired": "Password is required"
+}

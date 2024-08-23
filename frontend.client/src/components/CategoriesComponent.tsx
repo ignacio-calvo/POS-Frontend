@@ -6,6 +6,7 @@ import { fetchCategories, updateCategory, deleteCategory } from '../services/cat
 import { CategoryDto } from '../DTOs/CategoryDto';
 import CategoriesTable from './CategoriesTable';
 import CategoriesForm from './CategoriesForm';
+import { useTranslation } from 'react-i18next';
 
 const FloatingActionButton = styled(Fab)(({ theme }) => ({
     position: 'fixed',
@@ -14,6 +15,7 @@ const FloatingActionButton = styled(Fab)(({ theme }) => ({
 }));
 
 export const CategoriesComponent: React.FC<{ baseUrl: string }> = ({ baseUrl }) => {
+    const { t } = useTranslation('CategoriesComponent');
     const [categories, setCategories] = useState<CategoryDto[]>([]);
     const [filteredCategories, setFilteredCategories] = useState<CategoryDto[]>([]);
     const [editingCategory, setEditingCategory] = useState<Partial<CategoryDto> | null>(null);
@@ -63,10 +65,10 @@ export const CategoriesComponent: React.FC<{ baseUrl: string }> = ({ baseUrl }) 
             const data = await fetchCategories(baseUrl);
             setCategories(data);
             setFilteredCategories(data);
-            setSnackbar({ open: true, message: 'Category deleted successfully', severity: 'success' });
+            setSnackbar({ open: true, message: t('categoryDeletedSuccessfully'), severity: 'success' });
         } catch (error) {
             console.error('Error deleting category:', error);
-            setSnackbar({ open: true, message: 'Error deleting category', severity: 'error' });
+            setSnackbar({ open: true, message: t('errorDeletingCategory'), severity: 'error' });
         } finally {
             setLoading(false);
         }
@@ -80,10 +82,10 @@ export const CategoriesComponent: React.FC<{ baseUrl: string }> = ({ baseUrl }) 
             const data = await fetchCategories(baseUrl);
             setCategories(data);
             setFilteredCategories(data);
-            setSnackbar({ open: true, message: 'Category saved successfully', severity: 'success' });
+            setSnackbar({ open: true, message: t('categoryUpdatedSuccessfully'), severity: 'success' });
         } catch (error) {
             console.error('Error saving category:', error);
-            setSnackbar({ open: true, message: 'Error saving category', severity: 'error' });
+            setSnackbar({ open: true, message: t('errorUpdatingCategory'), severity: 'error' });
         } finally {
             setLoading(false);
         }
@@ -108,9 +110,9 @@ export const CategoriesComponent: React.FC<{ baseUrl: string }> = ({ baseUrl }) 
 
     return (
         <div>
-            <h2>Categories</h2>
+            <h2>{t('title')}</h2>
             <TextField
-                label="Search Categories"
+                label={t('searchCategories')}
                 value={searchQuery}
                 onChange={handleFilterChange}
                 InputProps={{
