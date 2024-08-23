@@ -7,5 +7,6 @@
   "loginSuccessful": "Inicio de sesión exitoso",
   "enterValidEmail": "Ingrese un correo electrónico válido",
   "emailRequired": "Ingrese un Email",
-  "passwordRequired": "Ingrese una contraseña"
+  "passwordRequired": "Ingrese una contraseña",
+  "registerLink": "Registrarse"
 }

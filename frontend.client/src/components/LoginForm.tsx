@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
@@ -93,6 +93,9 @@ const LoginForm: React.FC = () => {
                     {t("login")}
                 </Button>
             </form>
+            <Box sx={{ mt: 2, textAlign: 'center' }}>
+                <Link to="/register">{t("registerLink")}</Link>
+            </Box>
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
                     {message}
