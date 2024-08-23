@@ -3,7 +3,7 @@
 Frontend solution for supporting Point Of Sale (POS) business. 
 
 Written in React using TypeScript and Vite. 
-Also using Material UI, formik and yup for UI, styling, forms and validations.  
+Also using Material UI, formik and yup for UI, styling, forms and validations. Implemented i18n for enabling localization. 
 
 ## Architecture
 ![Component Diagram](https://github.com/ignacio-calvo/POS-Services/blob/develop/Documentation/POSitive-Components.png)
