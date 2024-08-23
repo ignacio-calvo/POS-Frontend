@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { CategoryDto } from '../DTOs/CategoryDto';
+import { useTranslation } from 'react-i18next';
 
 interface CategoriesTableProps {
     categories: CategoryDto[];
@@ -23,16 +24,17 @@ const StyledTableHeaderCell = styled(StyledTableCell)({
 });
 
 const CategoriesTable: FC<CategoriesTableProps> = ({ categories, onEdit, onDelete }) => {
+    const { t } = useTranslation('CategoriesTable');
     return (
         <StyledTableContainer component={Paper}>
             <Table>
                 <TableHead>
                     <TableRow>
-                        <StyledTableHeaderCell>ID</StyledTableHeaderCell>
-                        <StyledTableHeaderCell>Name</StyledTableHeaderCell>
-                        <StyledTableHeaderCell>Description</StyledTableHeaderCell>
-                        <StyledTableHeaderCell>Image</StyledTableHeaderCell>
-                        <StyledTableHeaderCell>Actions</StyledTableHeaderCell>
+                        <StyledTableHeaderCell>{t('id')}</StyledTableHeaderCell>
+                        <StyledTableHeaderCell>{t('name')}</StyledTableHeaderCell>
+                        <StyledTableHeaderCell>{t('description')}</StyledTableHeaderCell>
+                        <StyledTableHeaderCell>{t('image')}</StyledTableHeaderCell>
+                        <StyledTableHeaderCell>{t('actions')}</StyledTableHeaderCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -46,10 +48,10 @@ const CategoriesTable: FC<CategoriesTableProps> = ({ categories, onEdit, onDelet
                             </StyledTableCell>
                             <StyledTableCell>
                                 <Button onClick={() => onEdit(category)} color="primary">
-                                    Edit
+                                    {t('edit')}
                                 </Button>
                                 <Button onClick={() => onDelete(category.id)} color="secondary">
-                                    Delete
+                                    {t('delete')}
                                 </Button>
                             </StyledTableCell>
                         </TableRow>

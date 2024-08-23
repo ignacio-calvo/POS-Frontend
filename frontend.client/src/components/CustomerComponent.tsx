@@ -6,6 +6,7 @@ import CustomerForm from './CustomerForm';
 import CustomerTable from './CustomerTable';
 import { CustomerDto } from '../DTOs/CustomerDto';
 import { fetchCustomers, createCustomer, updateCustomer, deleteCustomer } from '../services/customerService';
+import { useTranslation } from 'react-i18next';
 
 interface CustomerComponentProps {
     baseUrl: string;
@@ -18,6 +19,7 @@ const FloatingActionButton = styled(Fab)(({ theme }) => ({
 }));
 
 export const CustomerComponent: FC<CustomerComponentProps> = ({ baseUrl }) => {
+    const { t } = useTranslation('CustomerComponent');
     const [customers, setCustomers] = useState<CustomerDto[]>([]);
     const [filteredCustomers, setFilteredCustomers] = useState<CustomerDto[]>([]);
     const [customer, setCustomer] = useState<Partial<CustomerDto>>({});
@@ -59,10 +61,10 @@ export const CustomerComponent: FC<CustomerComponentProps> = ({ baseUrl }) => {
         try {
             if (isEditing) {
                 await updateCustomer(baseUrl, customer as CustomerDto);
-                setSnackbar({ open: true, message: 'Customer updated successfully', severity: 'success' });
+                setSnackbar({ open: true, message: t('customerUpdatedSuccessfully'), severity: 'success' });
             } else {
                 await createCustomer(baseUrl, customer as CustomerDto);
-                setSnackbar({ open: true, message: 'Customer created successfully', severity: 'success' });
+                setSnackbar({ open: true, message: t('customerCreatedSuccessfully'), severity: 'success' });
             }
             setCustomer({});
             setIsEditing(false);
@@ -70,7 +72,7 @@ export const CustomerComponent: FC<CustomerComponentProps> = ({ baseUrl }) => {
             fetchCustomersData();
         } catch (error) {
             console.error('Error submitting customer:', error);
-            setSnackbar({ open: true, message: 'Error submitting customer', severity: 'error' });
+            setSnackbar({ open: true, message: t('errorSubmittingCustomer'), severity: 'error' });
         } finally {
             setLoading(false);
         }
@@ -109,9 +111,9 @@ export const CustomerComponent: FC<CustomerComponentProps> = ({ baseUrl }) => {
 
     return (
         <div>
-            <h2>Customers</h2>
+            <h2>{t('title')}</h2>
             <TextField
-                label="Search Customers"
+                label={t('searchCustomers')}
                 value={searchQuery}
                 onChange={handleSearchChange}
                 InputProps={{

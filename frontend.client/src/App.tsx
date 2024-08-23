@@ -14,8 +14,13 @@ import LoginForm from './components/LoginForm';
 import CustomerRegistrationForm from './components/CustomerRegistrationForm';
 import { Cart } from './pages/Cart';
 import { OrderProvider } from './contexts/OrderContext';
+import { useTranslation } from 'react-i18next';
+import './i18n';
 
 function App() {
+
+    const { t } = useTranslation();    
+
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const CUSTOMERS_API_URL: string = import.meta.env.VITE_CUSTOMERS_API_URL || "";
     const PRODUCTS_API_URL: string = import.meta.env.VITE_PRODUCTS_API_URL || "";
@@ -32,8 +37,8 @@ function App() {
 
     const { categories, loading, error } = useProduct();
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error.message}</div>;
+    if (loading) return <div>{t('loading')}</div>;
+    if (error) return <div>{t('error', { message: error.message })}</div>;
 
     return (
         <ThemeProvider theme={theme}>

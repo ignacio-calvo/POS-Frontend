@@ -1,4 +1,4 @@
-import { FC, useState, MouseEvent } from 'react';
+import { FC, useState, MouseEvent, ChangeEvent } from 'react';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,8 +14,12 @@ import Badge from '@mui/material/Badge';
 import { logout } from './services/authService';
 import { useOrder } from './contexts/OrderContext'; 
 import './App.css';
+import { useTranslation } from 'react-i18next';
+import Select from '@mui/material/Select';
 
 export const Navbar: FC = () => {
+    const { t, i18n } = useTranslation('Navbar');
+
     const location = useLocation();
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); 
@@ -44,6 +48,10 @@ export const Navbar: FC = () => {
         navigate('/');
     };
 
+    const handleLanguageChange = (event: ChangeEvent<{ value: unknown }>) => {
+        i18n.changeLanguage(event.target.value as string);
+    };
+
     const isAuthenticated = !!localStorage.getItem('jwtToken');
     const productCount = order?.orderLines?.length || 0; 
 
@@ -61,7 +69,7 @@ export const Navbar: FC = () => {
                         component={Link}
                         to="/"
                     >
-                        Menu
+                        {t("menu")}
                     </Button>
                 </Box>
                 <Box className="navbar-settings">
@@ -81,14 +89,14 @@ export const Navbar: FC = () => {
                             to="/Customers"
                             onClick={handleMenuClose}
                         >
-                            Customers
+                            { t('customers')}
                         </MenuItem>
                         <MenuItem
                             component={Link}
                             to="/Categories"
                             onClick={handleMenuClose}
                         >
-                            Categories
+                            { t("categories")}
                         </MenuItem>
                     </Menu>
                     <IconButton
@@ -104,7 +112,7 @@ export const Navbar: FC = () => {
                     >
                         {isAuthenticated ? (
                             <MenuItem onClick={handleLogout}>
-                                Log out
+                                { t("logout")}
                             </MenuItem>
                         ) : [
                             <MenuItem
@@ -113,7 +121,7 @@ export const Navbar: FC = () => {
                                 to="/login"
                                 onClick={handleLoginMenuClose}
                             >
-                                Log in
+                                { t("login")}
                             </MenuItem>,
                             <MenuItem
                                 key="register"
@@ -121,7 +129,7 @@ export const Navbar: FC = () => {
                                 to="/register"
                                 onClick={handleLoginMenuClose}
                             >
-                                Register
+                                {t("register")}
                             </MenuItem>
                         ]}
                     </Menu>
@@ -134,6 +142,16 @@ export const Navbar: FC = () => {
                             <ShoppingCart />
                         </Badge>
                     </IconButton>
+                    <Select
+                        value={i18n.language}
+                        onChange={handleLanguageChange}
+                        displayEmpty
+                        inputProps={{ 'aria-label': 'Without label' }}
+                        style={{ color: 'white', marginLeft: '10px' }}
+                    >
+                        <MenuItem value="en">En</MenuItem>
+                        <MenuItem value="es">Es</MenuItem>
+                    </Select>
                 </Box>
             </Toolbar>
         </AppBar>

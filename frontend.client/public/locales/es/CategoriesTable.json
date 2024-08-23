@@ -1,0 +1,9 @@
+{
+  "id": "Id",
+  "name": "Nombre",
+  "description": "Descripción",
+  "actions": "Acciones",
+  "image": "Imagen",
+  "edit": "Editar",
+  "delete": "Borrar"
+}
