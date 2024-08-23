@@ -10,9 +10,9 @@ import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import ShoppingCart from '@mui/icons-material/ShoppingCart';
-import Badge from '@mui/material/Badge'; 
+import Badge from '@mui/material/Badge';
 import { logout } from './services/authService';
-import { useOrder } from './contexts/OrderContext'; 
+import { useOrder } from './contexts/OrderContext';
 import './App.css';
 import { useTranslation } from 'react-i18next';
 import Select from '@mui/material/Select';
@@ -22,9 +22,9 @@ export const Navbar: FC = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); 
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [loginAnchorEl, setLoginAnchorEl] = useState<null | HTMLElement>(null);
-    const { order } = useOrder(); 
+    const { order } = useOrder();
 
     const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -53,7 +53,7 @@ export const Navbar: FC = () => {
     };
 
     const isAuthenticated = !!localStorage.getItem('jwtToken');
-    const productCount = order?.orderLines?.length || 0; 
+    const productCount = order?.orderLines?.length || 0;
 
     return (
         <AppBar position="fixed" className="navbar">
@@ -73,32 +73,36 @@ export const Navbar: FC = () => {
                     </Button>
                 </Box>
                 <Box className="navbar-settings">
-                    <IconButton
-                        color={location.pathname === "/Customers" || location.pathname === "/Categories" ? "secondary" : "inherit"}
-                        onClick={handleMenuOpen}
-                    >
-                        <SettingsIcon />
-                    </IconButton>
-                    <Menu
-                        anchorEl={anchorEl}
-                        open={Boolean(anchorEl)}
-                        onClose={handleMenuClose}
-                    >
-                        <MenuItem
-                            component={Link}
-                            to="/Customers"
-                            onClick={handleMenuClose}
-                        >
-                            { t('customers')}
-                        </MenuItem>
-                        <MenuItem
-                            component={Link}
-                            to="/Categories"
-                            onClick={handleMenuClose}
-                        >
-                            { t("categories")}
-                        </MenuItem>
-                    </Menu>
+                    {isAuthenticated && (
+                        <>
+                            <IconButton
+                                color={location.pathname === "/Customers" || location.pathname === "/Categories" ? "secondary" : "inherit"}
+                                onClick={handleMenuOpen}
+                            >
+                                <SettingsIcon />
+                            </IconButton>
+                            <Menu
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={handleMenuClose}
+                            >
+                                <MenuItem
+                                    component={Link}
+                                    to="/Customers"
+                                    onClick={handleMenuClose}
+                                >
+                                    {t('customers')}
+                                </MenuItem>
+                                <MenuItem
+                                    component={Link}
+                                    to="/Categories"
+                                    onClick={handleMenuClose}
+                                >
+                                    {t("categories")}
+                                </MenuItem>
+                            </Menu>
+                        </>
+                    )}
                     <IconButton
                         color="inherit"
                         onClick={handleLoginMenuOpen}
@@ -112,7 +116,7 @@ export const Navbar: FC = () => {
                     >
                         {isAuthenticated ? (
                             <MenuItem onClick={handleLogout}>
-                                { t("logout")}
+                                {t("logout")}
                             </MenuItem>
                         ) : [
                             <MenuItem
@@ -121,7 +125,7 @@ export const Navbar: FC = () => {
                                 to="/login"
                                 onClick={handleLoginMenuClose}
                             >
-                                { t("login")}
+                                {t("login")}
                             </MenuItem>,
                             <MenuItem
                                 key="register"
