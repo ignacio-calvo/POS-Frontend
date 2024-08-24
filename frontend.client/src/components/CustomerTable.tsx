@@ -1,27 +1,14 @@
 import { FC } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import { CustomerDto } from '../DTOs/CustomerDto';
 import { useTranslation } from 'react-i18next';
+import { StyledTableContainer, StyledTableCell, StyledTableHeaderCell } from './StyledTableComponents';
 
 interface CustomerTableProps {
     customers: CustomerDto[];
     onEdit: (customer: CustomerDto) => void;
     onDelete: (id: number) => void;
 }
-
-const StyledTableContainer = styled(TableContainer)({
-    minWidth: 650,
-});
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    color: theme.palette.text.primary,
-    backgroundColor: theme.palette.background.paper,
-}));
-
-const StyledTableHeaderCell = styled(StyledTableCell)({
-    fontWeight: 'bold',
-});
 
 const CustomerTable: FC<CustomerTableProps> = ({ customers, onEdit, onDelete }) => {
     const { t } = useTranslation('CustomerTable');

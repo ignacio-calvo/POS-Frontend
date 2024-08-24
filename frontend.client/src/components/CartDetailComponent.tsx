@@ -1,28 +1,13 @@
 import React from 'react';
 import { OrderLineDto } from '../DTOs/OrderLineDto';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Box, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import { useOrder } from '../contexts/OrderContext';
 import { useTranslation } from 'react-i18next';
+import { StyledTableContainer, StyledTableCell, StyledTableHeaderCell } from './StyledTableComponents';
 
 interface CartDetailProps {
     orderLines: OrderLineDto[];
 }
-
-const StyledTableContainer = styled(TableContainer)({
-    minWidth: 650,
-});
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    color: theme.palette.text.primary,
-    backgroundColor: theme.palette.background.paper,
-}));
-
-const StyledTableHeaderCell = styled(StyledTableCell)({
-    fontWeight: 'bold',
-    backgroundColor: theme => theme.palette.primary.main,
-    color: theme => theme.palette.primary.contrastText,
-});
 
 const CartDetailComponent: React.FC<CartDetailProps> = ({ orderLines }) => {
     const { t } = useTranslation('CartDetailComponent');
