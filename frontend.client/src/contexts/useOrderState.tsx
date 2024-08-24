@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Order, OrderDto } from '../DTOs/OrderDto';
 import { OrderLineDto } from '../DTOs/OrderLineDto';
 
-const initialOrder: OrderDto = new Order();
+const initialOrder: OrderDto = new Order(0);
 
 export const useOrderState = () => {
     const [order, setOrder] = useState<OrderDto>(initialOrder);
