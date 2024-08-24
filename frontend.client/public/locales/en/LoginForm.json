@@ -7,5 +7,7 @@
   "loginSuccessful": "Login successful!",
   "enterValidEmail": "Enter a valid email",
   "emailRequired": "Email is required",
-  "passwordRequired": "Password is required"
+  "passwordRequired": "Password is required",
+  "loginWithGoogle": "Login with Google",
+  "registerLink": "Don't have an account? Register"
 }
