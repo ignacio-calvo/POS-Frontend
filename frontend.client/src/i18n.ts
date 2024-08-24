@@ -12,8 +12,8 @@ i18n
         fallbackLng: 'en',
         // lng: 'es', // Force Spanish language for testing. Delete or comment this to change dinamically based on browser settings.
         debug: true,
-        ns: ['common', 'Navbar', 'MenuProductComponent', 'LoginForm', 'CustomerTable', 'CategoriesComponent', 'CartDetailComponent', 'MenuProductsComponent',
-            'CustomerRegistrationForm', 'CustomerForm', 'CustomerComponent', 'CategoriesTable', 'CategoriesForm','Cart'], 
+        ns: ['common', 'Navbar', 'MenuProductComponent', 'LoginForm', 'CustomerTable', 'CategoriesComponent', 'MenuProductsComponent',
+            'CustomerRegistrationForm', 'CustomerForm', 'CustomerComponent', 'CategoriesTable', 'CategoriesForm', 'Cart', 'CartDetailComponent', 'CartDetailSummaryComponent'], 
         defaultNS: 'common',
         interpolation: {
             escapeValue: false,

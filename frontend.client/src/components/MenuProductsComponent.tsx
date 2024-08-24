@@ -19,13 +19,13 @@ export const MenuProductsComponent: FC<Props> = ({ products }) => {
     };
 
     const filteredProducts = products.filter(product =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        product.name?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
         <div>
             <TextField
-                label={t('searchProducts') }
+                label={t('searchProducts')}
                 value={searchQuery}
                 onChange={handleFilterChange}
                 InputProps={{
@@ -41,15 +41,7 @@ export const MenuProductsComponent: FC<Props> = ({ products }) => {
             <Grid container spacing={2}>
                 {filteredProducts.map(product => (
                     <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
-                        <MenuProductComponent
-                            id={product.id}
-                            name={product.name}
-                            productImageUrl={product.productImageUrl}
-                            sizes={product.sizes}
-                            description={product.description}
-                            displayOrder={product.displayOrder}
-                            productType={product.productType}
-                        />
+                        <MenuProductComponent product={product} />
                     </Grid>
                 ))}
             </Grid>

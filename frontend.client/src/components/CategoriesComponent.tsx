@@ -125,7 +125,7 @@ export const CategoriesComponent: React.FC<{ baseUrl: string }> = ({ baseUrl }) 
                 fullWidth
                 margin="normal"
             />
-            <FloatingActionButton color="primary" onClick={() => { setEditingCategory({ id: '', name: '', description: '', imageUrl: '' }); setIsFormOpen(true); }}>
+            <FloatingActionButton color="primary" onClick={() => { setEditingCategory({ id: 0, name: '', description: '', imageUrl: '' }); setIsFormOpen(true); }}>
                 <Add />
             </FloatingActionButton>
             <CategoriesTable categories={filteredCategories} onEdit={handleEdit} onDelete={handleDelete} />

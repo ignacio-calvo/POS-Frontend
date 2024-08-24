@@ -1,4 +1,4 @@
-import { FC, useState, MouseEvent, ChangeEvent } from 'react';
+import { FC, useState, MouseEvent } from 'react';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,7 +15,7 @@ import { logout } from './services/authService';
 import { useOrder } from './contexts/OrderContext';
 import './App.css';
 import { useTranslation } from 'react-i18next';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 export const Navbar: FC = () => {
     const { t, i18n } = useTranslation('Navbar');
@@ -48,7 +48,7 @@ export const Navbar: FC = () => {
         navigate('/');
     };
 
-    const handleLanguageChange = (event: ChangeEvent<{ value: unknown }>) => {
+    const handleLanguageChange = (event: SelectChangeEvent<string>) => {
         i18n.changeLanguage(event.target.value as string);
     };
 

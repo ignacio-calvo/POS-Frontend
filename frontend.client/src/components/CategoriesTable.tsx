@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { Table, TableBody, TableHead, TableRow, Paper, Button } from '@mui/material';
 import { CategoryDto } from '../DTOs/CategoryDto';
 import { useTranslation } from 'react-i18next';
-import { StyledTableContainer, StyledTableCell, StyledTableHeaderCell } from './StyledTableComponents';
+import { StyledTableCell, StyledTableHeaderCell } from './StyledTableComponents';
 
 interface CategoriesTableProps {
     categories: CategoryDto[];
@@ -13,7 +13,7 @@ interface CategoriesTableProps {
 const CategoriesTable: FC<CategoriesTableProps> = ({ categories, onEdit, onDelete }) => {
     const { t } = useTranslation('CategoriesTable');
     return (
-        <StyledTableContainer component={Paper}>
+        <Paper>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -45,7 +45,7 @@ const CategoriesTable: FC<CategoriesTableProps> = ({ categories, onEdit, onDelet
                     ))}
                 </TableBody>
             </Table>
-        </StyledTableContainer>
+        </Paper>
     );
 };
 

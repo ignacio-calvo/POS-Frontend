@@ -21,7 +21,6 @@ const CustomerRegistrationForm: React.FC = () => {
     const [snackbarMessage, setSnackbarMessage] = React.useState<string>('');
     const [severity, setSeverity] = React.useState<'success' | 'error'>('success');
     const navigate = useNavigate();
-    
 
     const validationSchema = yup.object({
         firstName: yup.string().required(t('lastNameRequired')),
@@ -35,7 +34,7 @@ const CustomerRegistrationForm: React.FC = () => {
             .matches(/[@$!%*?&#]/, t('passwordSpecial'))
             .required(t('passwordRequired')),
         repeatPassword: yup.string()
-            .oneOf([yup.ref('password'), null], t('passwordMatch'))
+            .oneOf([yup.ref('password'), undefined], t('passwordMatch'))
             .required(t('passwordRepeatRequired'))
     });
 
@@ -75,7 +74,7 @@ const CustomerRegistrationForm: React.FC = () => {
         }
     });
 
-    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    const handleClose = (_event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
@@ -162,4 +161,3 @@ const CustomerRegistrationForm: React.FC = () => {
 };
 
 export default CustomerRegistrationForm;
-

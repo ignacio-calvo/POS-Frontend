@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { Table, TableBody, TableHead, TableRow, Paper, Button } from '@mui/material';
 import { CustomerDto } from '../DTOs/CustomerDto';
 import { useTranslation } from 'react-i18next';
-import { StyledTableContainer, StyledTableCell, StyledTableHeaderCell } from './StyledTableComponents';
+import { StyledTableCell, StyledTableHeaderCell } from './StyledTableComponents';
 
 interface CustomerTableProps {
     customers: CustomerDto[];
@@ -14,7 +14,7 @@ const CustomerTable: FC<CustomerTableProps> = ({ customers, onEdit, onDelete }) 
     const { t } = useTranslation('CustomerTable');
 
     return (
-        <StyledTableContainer component={Paper}>
+        <Paper>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -46,7 +46,7 @@ const CustomerTable: FC<CustomerTableProps> = ({ customers, onEdit, onDelete }) 
                     ))}
                 </TableBody>
             </Table>
-        </StyledTableContainer>
+        </Paper>
     )
 };
 

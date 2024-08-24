@@ -53,7 +53,7 @@ const LoginForm: React.FC = () => {
     }
   });
 
-  const handleClose = (reason?: string) => {
+    const handleClose = (_event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
