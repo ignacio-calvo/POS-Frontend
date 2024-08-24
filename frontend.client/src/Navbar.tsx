@@ -46,7 +46,7 @@ export const Navbar: FC = () => {
 
     const handleLogout = () => {
         logout();
-        clearCustomer(); 
+        clearCustomer();
         handleLoginMenuClose();
         navigate('/');
     };
@@ -118,18 +118,22 @@ export const Navbar: FC = () => {
                         onClose={handleLoginMenuClose}
                     >
                         {isAuthenticated ? (
-                            <>
+                            [
                                 <MenuItem
+                                    key="profile"
                                     component={Link}
                                     to="/profile"
                                     onClick={handleLoginMenuClose}
                                 >
                                     {t("profile")}
-                                </MenuItem>
-                                <MenuItem onClick={handleLogout}>
+                                </MenuItem>,
+                                <MenuItem
+                                    key="logout"
+                                    onClick={handleLogout}
+                                >
                                     {t("logout")}
                                 </MenuItem>
-                            </>
+                            ]
                         ) : [
                             <MenuItem
                                 key="login"
