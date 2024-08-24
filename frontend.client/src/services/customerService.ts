@@ -28,3 +28,10 @@ export const deleteCustomer = async (baseUrl: string, id: number): Promise<void>
         headers: getAuthHeaders()
     });
 };
+
+export const fetchCustomerByEmail = async (baseUrl: string, email: string): Promise<CustomerDto> => {
+    const response = await axios.get<CustomerDto>(`${apiUrl(baseUrl)}/email/${email}`, {
+        headers: getAuthHeaders()
+    });
+    return response.data;
+};

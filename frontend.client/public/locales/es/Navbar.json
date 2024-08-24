@@ -4,5 +4,6 @@
   "logout": "Cerrar sesión",
   "login": "Iniciar sesión",
   "register": "Registrar",
-  "menu": "Menu"
+  "menu": "Menu",
+  "profile": "Profile"
 }

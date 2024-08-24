@@ -10,6 +10,8 @@ import Box from '@mui/material/Box';
 import { login, loginWithGoogle } from '../services/authService';
 import { useTranslation } from 'react-i18next';
 import { useGoogleLogin } from '@react-oauth/google';
+import { useCustomer } from '../contexts/useCustomer';
+import { CustomerLoginResponseDto } from '../DTOs/CustomerLoginResponseDto';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -24,6 +26,7 @@ const LoginForm: React.FC = () => {
   const [message, setMessage] = React.useState('');
   const [severity, setSeverity] = React.useState<'success' | 'error'>('success');
   const navigate = useNavigate();
+  const { setCustomer } = useCustomer();
 
   const validationSchema = yup.object({
     email: yup.string().email(t("enterValidEmail")).required(t('emailRequired')),
@@ -38,14 +41,22 @@ const LoginForm: React.FC = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        await login(values.email, values.password);
-        setMessage(t("loginSuccessful"));
-        setSeverity('success');
-        setOpen(true);
-        setTimeout(() => {
-          navigate('/');
-        }, 2000); // Redirect after 2 seconds
-      } catch {
+        const response: CustomerLoginResponseDto = await login(values.email, values.password);
+        if (response.isSuccess) {
+          setCustomer(response.customer); // Update the customer context
+          setMessage(t("loginSuccessful"));
+          setSeverity('success');
+          setOpen(true);
+          setTimeout(() => {
+            navigate('/');
+          }, 2000); // Redirect after 2 seconds
+        } else {
+          setMessage(response.errorMessage || t("loginFailed"));
+          setSeverity('error');
+          setOpen(true);
+        }
+      } catch (error) {
+        console.error('Login error:', error); 
         setMessage(t("loginFailed"));
         setSeverity('error');
         setOpen(true);
@@ -53,7 +64,7 @@ const LoginForm: React.FC = () => {
     }
   });
 
-    const handleClose = (_event?: React.SyntheticEvent | Event, reason?: string) => {
+  const handleClose = (_event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -65,18 +76,25 @@ const LoginForm: React.FC = () => {
     onSuccess: async tokenResponse => {
       console.log('Login Success:', tokenResponse);
       try {
-        const accessToken = tokenResponse.access_token; 
+        const accessToken = tokenResponse.access_token;
         console.log('Access Token:', accessToken);
 
-        await loginWithGoogle(accessToken);
-        setMessage(t("loginSuccessful"));
-        setSeverity('success');
-        setOpen(true);
-        setTimeout(() => {
-          navigate('/');
-        }, 2000); // Redirect after 2 seconds
+        const response: CustomerLoginResponseDto = await loginWithGoogle(accessToken);
+        if (response.isSuccess) {
+          setCustomer(response.customer); // Update the customer context
+          setMessage(t("loginSuccessful"));
+          setSeverity('success');
+          setOpen(true);
+          setTimeout(() => {
+            navigate('/');
+          }, 2000); // Redirect after 2 seconds
+        } else {
+          setMessage(response.errorMessage || t("loginFailed"));
+          setSeverity('error');
+          setOpen(true);
+        }
       } catch (error) {
-        console.log('Failed to fetch user info:', error);
+        console.error('Failed to fetch user info:', error); 
         setMessage(t("loginFailed"));
         setSeverity('error');
         setOpen(true);

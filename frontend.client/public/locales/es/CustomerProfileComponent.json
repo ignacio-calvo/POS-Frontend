@@ -1,0 +1,22 @@
+{
+  "profile": {
+    "title": "Actualizar Perfil",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Email",
+    "phoneNumber": "Teléfono",
+    "phoneExtension": "Extensión Telefónica",
+    "companyName": "Empresa",
+    "addressLine1": "Dirección Línea 1",
+    "streetNumber": "Número",
+    "addressLine2": "Dirección Línea 2",
+    "state": "Provincia",
+    "city": "Ciudad",
+    "postalCode": "Código Postal",
+    "submit": "Guardar"
+  },
+  "validation": {
+    "required": "Este campo es obligatorio",
+    "invalidEmail": "Email no válido"
+  }
+}

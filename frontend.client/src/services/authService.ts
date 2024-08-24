@@ -1,39 +1,39 @@
 import axios from 'axios';
+import { CustomerLoginResponseDto } from '../DTOs/CustomerLoginResponseDto';
 
-const AUTH_API_URL: string = import.meta.env.VITE_AUTH_API_URL || "";
-const loginUrl = `${AUTH_API_URL}/identity/login`;
 const CUSTOMER_IDENTITY_API_URL: string = import.meta.env.VITE_CUSTOMER_IDENTITY_API_URL || "";
+const loginUrl = `${CUSTOMER_IDENTITY_API_URL}/CustomerIdentity/login`;
 const googleLoginUrl = `${CUSTOMER_IDENTITY_API_URL}/CustomerIdentity/google-login`;
 const registerUrl = `${CUSTOMER_IDENTITY_API_URL}/CustomerIdentity/register`;
 
-interface RegisterResponse {
-    Message: string;
-}
-
-export const login = async (email: string, password: string): Promise<void> => {
+export const login = async (email: string, password: string): Promise<CustomerLoginResponseDto> => {
     try {
-        const response = await axios.post(loginUrl, { email, password });
-        const token = response.data.token;
-        if (token) {
+        const response = await axios.post<CustomerLoginResponseDto>(loginUrl, { email, password });
+        const { isSuccess, token, customer, errorMessage } = response.data;
+        if (isSuccess && token) {
             localStorage.setItem('jwtToken', token);
+            localStorage.setItem('customer', JSON.stringify(customer));
         } else {
-            throw new Error('Token not found in response');
+            throw new Error(errorMessage || 'Login failed');
         }
+        return response.data;
     } catch (error) {
         console.error('Error during login:', error);
         throw error;
     }
 };
 
-export const loginWithGoogle = async (token: string): Promise<void> => {
+export const loginWithGoogle = async (token: string): Promise<CustomerLoginResponseDto> => {
     try {
-        const response = await axios.post(googleLoginUrl, { token });
-        const jwtToken = response.data.token;
-        if (jwtToken) {
+        const response = await axios.post<CustomerLoginResponseDto>(googleLoginUrl, { token });
+        const { isSuccess, token: jwtToken, customer, errorMessage } = response.data;
+        if (isSuccess && jwtToken) {
             localStorage.setItem('jwtToken', jwtToken);
+            localStorage.setItem('customer', JSON.stringify(customer));
         } else {
-            throw new Error('Token not found in response');
+            throw new Error(errorMessage || 'Google login failed');
         }
+        return response.data;
     } catch (error) {
         console.error('Error during Google login:', error);
         throw error;
@@ -42,6 +42,7 @@ export const loginWithGoogle = async (token: string): Promise<void> => {
 
 export const logout = (): void => {
     localStorage.removeItem('jwtToken');
+    localStorage.removeItem('customer');
 };
 
 export const register = async (
@@ -49,14 +50,21 @@ export const register = async (
     lastName: string,
     email: string,
     password: string
-): Promise<RegisterResponse> => {
+): Promise<CustomerLoginResponseDto> => {
     try {
-        const response = await axios.post<RegisterResponse>(registerUrl, {
+        const response = await axios.post<CustomerLoginResponseDto>(registerUrl, {
             email,
             password,
             firstName,
             lastName
         });
+        const { isSuccess, token, customer, errorMessage } = response.data;
+        if (isSuccess && token) {
+            localStorage.setItem('jwtToken', token);
+            localStorage.setItem('customer', JSON.stringify(customer));
+        } else {
+            throw new Error(errorMessage || 'Registration failed');
+        }
         return response.data;
     } catch (error) {
         console.error('Error during registration:', error);

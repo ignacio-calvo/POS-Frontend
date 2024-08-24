@@ -13,6 +13,7 @@ import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 import { logout } from './services/authService';
 import { useOrder } from './contexts/OrderContext';
+import { useCustomer } from './contexts/useCustomer';
 import './App.css';
 import { useTranslation } from 'react-i18next';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -25,6 +26,7 @@ export const Navbar: FC = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [loginAnchorEl, setLoginAnchorEl] = useState<null | HTMLElement>(null);
     const { order } = useOrder();
+    const { clearCustomer } = useCustomer(); // Use the clearCustomer method from the context
 
     const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -44,6 +46,7 @@ export const Navbar: FC = () => {
 
     const handleLogout = () => {
         logout();
+        clearCustomer(); 
         handleLoginMenuClose();
         navigate('/');
     };
@@ -115,9 +118,18 @@ export const Navbar: FC = () => {
                         onClose={handleLoginMenuClose}
                     >
                         {isAuthenticated ? (
-                            <MenuItem onClick={handleLogout}>
-                                {t("logout")}
-                            </MenuItem>
+                            <>
+                                <MenuItem
+                                    component={Link}
+                                    to="/profile"
+                                    onClick={handleLoginMenuClose}
+                                >
+                                    {t("profile")}
+                                </MenuItem>
+                                <MenuItem onClick={handleLogout}>
+                                    {t("logout")}
+                                </MenuItem>
+                            </>
                         ) : [
                             <MenuItem
                                 key="login"
