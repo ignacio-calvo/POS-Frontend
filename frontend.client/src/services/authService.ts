@@ -2,9 +2,9 @@ import axios from 'axios';
 
 const AUTH_API_URL: string = import.meta.env.VITE_AUTH_API_URL || "";
 const loginUrl = `${AUTH_API_URL}/identity/login`;
-const CUSTOMER_REGISTRATION_API_URL: string = import.meta.env.VITE_CUSTOMER_REGISTRATION_API_URL || "";
-const googleLoginUrl = `${CUSTOMER_REGISTRATION_API_URL}/CustomerRegistration/google-login`;
-const registerUrl = `${CUSTOMER_REGISTRATION_API_URL}/CustomerRegistration/register`;
+const CUSTOMER_IDENTITY_API_URL: string = import.meta.env.VITE_CUSTOMER_IDENTITY_API_URL || "";
+const googleLoginUrl = `${CUSTOMER_IDENTITY_API_URL}/CustomerIdentity/google-login`;
+const registerUrl = `${CUSTOMER_IDENTITY_API_URL}/CustomerIdentity/register`;
 
 interface RegisterResponse {
     Message: string;
