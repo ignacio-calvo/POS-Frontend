@@ -20,6 +20,7 @@ export interface OrderDto {
 
     addOrderLine(orderLine: OrderLineDto): void;
     removeOrderLine(orderLineId: number): void;
+    emptyOrder(): void; // Add the emptyOrder method to the interface
 }
 
 export class Order implements OrderDto {
@@ -53,6 +54,11 @@ export class Order implements OrderDto {
     removeOrderLine(orderLineId: number): void {
         this.orderLines = this.orderLines.filter(line => line.id !== orderLineId);
         this.renumberOrderLines();
+        this.updateTotals();
+    }
+
+    emptyOrder(): void {
+        this.orderLines = [];
         this.updateTotals();
     }
 

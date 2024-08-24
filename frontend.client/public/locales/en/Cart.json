@@ -1,3 +1,6 @@
 {
-  "title": "Cart"
+  "title": "Cart",
+  "emptyCart": "Empty Cart",
+  "cartIsEmpty": "Your cart is empty.",
+  "submitOrder": "Submit Order"
 }
