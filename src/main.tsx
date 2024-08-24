@@ -1,4 +1,3 @@
-// File: frontend.client/src/main.tsx
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { GoogleOAuthProvider } from '@react-oauth/google';
