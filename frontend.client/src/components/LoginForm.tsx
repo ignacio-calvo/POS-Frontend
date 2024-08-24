@@ -98,7 +98,7 @@ const LoginForm: React.FC = () => {
           fullWidth
           id="email"
           name="email"
-          label={t("Email")}
+          label={t("email")}
           value={formik.values.email}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
