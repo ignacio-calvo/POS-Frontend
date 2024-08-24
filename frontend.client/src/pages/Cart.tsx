@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import CartDetailComponent from '../components/CartDetailComponent';
 import { useOrder } from '../contexts/OrderContext';
 import { useTranslation } from 'react-i18next';

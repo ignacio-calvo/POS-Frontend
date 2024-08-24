@@ -8,5 +8,6 @@
   "enterValidEmail": "Ingrese un correo electrónico válido",
   "emailRequired": "Ingrese un Email",
   "passwordRequired": "Ingrese una contraseña",
-  "registerLink": "Registrarse"
+  "loginWithGoogle": "Login con Google",
+  "registerLink": "No tienes una cuenta? Registrarse"
 }

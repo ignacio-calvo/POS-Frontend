@@ -50,7 +50,7 @@ const CustomerRegistrationForm: React.FC = () => {
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             try {
-                const response = await register(values.firstName, values.lastName, values.email, values.password);
+                await register(values.firstName, values.lastName, values.email, values.password);
                 setSnackbarMessage(t('registrationSuccessful'));
                 setSeverity('success');
                 setOpen(true);
