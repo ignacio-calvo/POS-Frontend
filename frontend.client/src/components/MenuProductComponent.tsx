@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import { ProductDto } from '../DTOs/ProductDto';
-import { ProductTypeDto } from '../DTOs/ProductTypeDto';
+import { ProductTypeDto } from '../DTOs/ProductTypeDto'; // Import the enum
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -14,12 +14,18 @@ import { OrderLineDto } from '../DTOs/OrderLineDto';
 import '../App.css'; 
 import { useTranslation } from 'react-i18next';
 
-export const MenuProductComponent: FC<ProductDto> = ({ id, name, productImageUrl, sizes, description, productType }) => {
+interface MenuProductComponentProps {
+    product: ProductDto;
+}
+
+export const MenuProductComponent: FC<MenuProductComponentProps> = ({ product }) => {
     const { t } = useTranslation('MenuProductComponent');
     const [selectedSize, setSelectedSize] = useState<number | null>(null);
     const [openBackdrop, setOpenBackdrop] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const { addOrderLine } = useOrder();
+
+    const { id, name, productImageUrl, sizes, description, productType } = product;
 
     useEffect(() => {
         const defaultSize = sizes.find(size => size.defaultSize);
@@ -43,12 +49,8 @@ export const MenuProductComponent: FC<ProductDto> = ({ id, name, productImageUrl
                     status: undefined, // Set appropriate status 
                     quantity: 1,
                     product: {
-                        id,
-                        name,
-                        description,
-                        productImageUrl,
-                        productType,
-                        sizes: [selectedSizeObj] // Only include the selected size
+                        ...product,
+                        sizes: [selectedSizeObj], // Only include the selected size
                     },
                     beingModified: false,
                     comments: undefined, 
@@ -78,7 +80,7 @@ export const MenuProductComponent: FC<ProductDto> = ({ id, name, productImageUrl
                 component="img"
                 height="140"
                 image={`./img/${productImageUrl}`}
-                alt={name}
+                alt={name || 'Product Image'}
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">

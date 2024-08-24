@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Table, TableBody, TableHead, TableRow, Paper, Button } from '@mui/material';
 import { CategoryDto } from '../DTOs/CategoryDto';
 import { useTranslation } from 'react-i18next';
+import { StyledTableCell, StyledTableHeaderCell } from './StyledTableComponents';
 
 interface CategoriesTableProps {
     categories: CategoryDto[];
@@ -10,23 +10,10 @@ interface CategoriesTableProps {
     onDelete: (id: number) => void;
 }
 
-const StyledTableContainer = styled(TableContainer)({
-    minWidth: 650,
-});
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    color: theme.palette.text.primary,
-    backgroundColor: theme.palette.background.paper,
-}));
-
-const StyledTableHeaderCell = styled(StyledTableCell)({
-    fontWeight: 'bold',
-});
-
 const CategoriesTable: FC<CategoriesTableProps> = ({ categories, onEdit, onDelete }) => {
     const { t } = useTranslation('CategoriesTable');
     return (
-        <StyledTableContainer component={Paper}>
+        <Paper>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -58,7 +45,7 @@ const CategoriesTable: FC<CategoriesTableProps> = ({ categories, onEdit, onDelet
                     ))}
                 </TableBody>
             </Table>
-        </StyledTableContainer>
+        </Paper>
     );
 };
 

@@ -1,4 +1,4 @@
-import { FC, useState, MouseEvent, ChangeEvent } from 'react';
+import { FC, useState, MouseEvent } from 'react';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,9 +13,10 @@ import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 import { logout } from './services/authService';
 import { useOrder } from './contexts/OrderContext';
+import { useCustomer } from './contexts/useCustomer';
 import './App.css';
 import { useTranslation } from 'react-i18next';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 export const Navbar: FC = () => {
     const { t, i18n } = useTranslation('Navbar');
@@ -25,6 +26,7 @@ export const Navbar: FC = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [loginAnchorEl, setLoginAnchorEl] = useState<null | HTMLElement>(null);
     const { order } = useOrder();
+    const { clearCustomer } = useCustomer(); // Use the clearCustomer method from the context
 
     const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -44,11 +46,12 @@ export const Navbar: FC = () => {
 
     const handleLogout = () => {
         logout();
+        clearCustomer(); 
         handleLoginMenuClose();
         navigate('/');
     };
 
-    const handleLanguageChange = (event: ChangeEvent<{ value: unknown }>) => {
+    const handleLanguageChange = (event: SelectChangeEvent<string>) => {
         i18n.changeLanguage(event.target.value as string);
     };
 
@@ -115,9 +118,18 @@ export const Navbar: FC = () => {
                         onClose={handleLoginMenuClose}
                     >
                         {isAuthenticated ? (
-                            <MenuItem onClick={handleLogout}>
-                                {t("logout")}
-                            </MenuItem>
+                            <>
+                                <MenuItem
+                                    component={Link}
+                                    to="/profile"
+                                    onClick={handleLoginMenuClose}
+                                >
+                                    {t("profile")}
+                                </MenuItem>
+                                <MenuItem onClick={handleLogout}>
+                                    {t("logout")}
+                                </MenuItem>
+                            </>
                         ) : [
                             <MenuItem
                                 key="login"

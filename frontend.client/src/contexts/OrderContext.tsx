@@ -12,7 +12,7 @@ const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
 const loadOrderFromStorage = (): OrderDto => {
     const storedOrder = localStorage.getItem('order');
-    return storedOrder ? JSON.parse(storedOrder) : new Order();
+    return storedOrder ? JSON.parse(storedOrder) : new Order(0);
 };
 
 const saveOrderToStorage = (order: OrderDto) => {
@@ -27,14 +27,14 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }, [order]);
 
     const addOrderLine = (orderLine: OrderLineDto) => {
-        const newOrder = new Order();
+        const newOrder = new Order(0);
         Object.assign(newOrder, order);
         newOrder.addOrderLine(orderLine);
         setOrder(newOrder);
     };
 
     const removeOrderLine = (orderLineId: number) => {
-        const newOrder = new Order();
+        const newOrder = new Order(0);
         Object.assign(newOrder, order);
         newOrder.removeOrderLine(orderLineId);
         setOrder(newOrder);

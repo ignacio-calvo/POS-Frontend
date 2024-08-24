@@ -10,6 +10,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
+import { useCustomer } from '../contexts/useCustomer';
+import { CustomerLoginResponseDto } from '../DTOs/CustomerLoginResponseDto';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -21,10 +23,10 @@ const CustomerRegistrationForm: React.FC = () => {
     const [snackbarMessage, setSnackbarMessage] = React.useState<string>('');
     const [severity, setSeverity] = React.useState<'success' | 'error'>('success');
     const navigate = useNavigate();
-    
+    const { setCustomer } = useCustomer();
 
     const validationSchema = yup.object({
-        firstName: yup.string().required(t('lastNameRequired')),
+        firstName: yup.string().required(t('firstNameRequired')),
         lastName: yup.string().required(t('lastNameRequired')),
         email: yup.string().email(t('emailInvalid')).required(t('emailRequired')),
         password: yup.string()
@@ -35,7 +37,7 @@ const CustomerRegistrationForm: React.FC = () => {
             .matches(/[@$!%*?&#]/, t('passwordSpecial'))
             .required(t('passwordRequired')),
         repeatPassword: yup.string()
-            .oneOf([yup.ref('password'), null], t('passwordMatch'))
+            .oneOf([yup.ref('password'), undefined], t('passwordMatch'))
             .required(t('passwordRepeatRequired'))
     });
 
@@ -50,17 +52,20 @@ const CustomerRegistrationForm: React.FC = () => {
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             try {
-                await register(values.firstName, values.lastName, values.email, values.password);
-                setSnackbarMessage(t('registrationSuccessful'));
-                setSeverity('success');
-                setOpen(true);
-
-                // Authenticate the user after successful registration
-                await login(values.email, values.password);
-
-                setTimeout(() => {
-                    navigate('/');
-                }, 2000);
+                const registerResult: CustomerLoginResponseDto = await register(values.firstName, values.lastName, values.email, values.password);
+                if (registerResult.isSuccess) {
+                    setCustomer(registerResult.customer); // Update the customer context
+                    setSnackbarMessage(t('registrationSuccessful'));
+                    setSeverity('success');
+                    setOpen(true);
+                    setTimeout(() => {
+                        navigate('/');
+                    }, 2000);
+                } else {
+                    setSnackbarMessage(registerResult.errorMessage || t('errorOcurred'));
+                    setSeverity('error');
+                    setOpen(true);
+                }
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     setSnackbarMessage(error.response?.data?.Message || t('errorOcurred'));
@@ -75,7 +80,7 @@ const CustomerRegistrationForm: React.FC = () => {
         }
     });
 
-    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    const handleClose = (_event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
@@ -162,4 +167,3 @@ const CustomerRegistrationForm: React.FC = () => {
 };
 
 export default CustomerRegistrationForm;
-

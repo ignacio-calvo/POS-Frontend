@@ -1,0 +1,22 @@
+{
+  "profile": {
+    "title": "Update Profile",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phoneNumber": "Phone Number",
+    "phoneExtension": "Phone Extension",
+    "companyName": "Company Name",
+    "addressLine1": "Address Line 1",
+    "streetNumber": "Street Number",
+    "addressLine2": "Address Line 2",
+    "state": "State",
+    "city": "City",
+    "postalCode": "Postal Code",
+    "submit": "Submit"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email address"
+  }
+}

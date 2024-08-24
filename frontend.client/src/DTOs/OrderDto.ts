@@ -40,6 +40,10 @@ export class Order implements OrderDto {
     deliveredDate: Date = new Date();
     kitchenDisplayDate: Date = new Date();
 
+    constructor(id: number) {
+        this.id = id;
+    }
+
     addOrderLine(orderLine: OrderLineDto): void {
         orderLine.id = this.orderLines.length + 1;
         this.orderLines.push(orderLine);
@@ -60,8 +64,11 @@ export class Order implements OrderDto {
 
     private updateTotals(): void {
         this.subTotal = this.orderLines.reduce((total, line) => {
-            const size = line.product.sizes[0]; // Product within an order line should only have one size being the selected size
-            return total + size.price * line.quantity;
+            const size = line.product?.sizes[0]; // Product within an order line should only have one size being the selected size
+            if (size && size.price) {
+                return total + size.price * line.quantity;
+            }
+            return total;
         }, 0);
         this.finalTotal = this.subTotal + this.deliveryFee;
     }
