@@ -23,6 +23,12 @@ export const updateCustomer = async (baseUrl: string, updatedCustomer: CustomerD
     });
 };
 
+export const deleteCustomer = async (baseUrl: string, id: number): Promise<void> => {
+    await axios.delete(`${apiUrl(baseUrl)}/${id}`, {
+        headers: getAuthHeaders()
+    });
+};
+
 export const fetchCustomerByEmail = async (baseUrl: string, email: string): Promise<CustomerDto> => {
     const response = await axios.get<CustomerDto>(`${apiUrl(baseUrl)}/email/${email}`, {
         headers: getAuthHeaders()

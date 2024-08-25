@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
+import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
@@ -22,10 +23,18 @@ export const Navbar: FC = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [loginAnchorEl, setLoginAnchorEl] = useState<null | HTMLElement>(null);
     const { order } = useOrder();
     const { clearCustomer } = useCustomer(); // Use the clearCustomer method from the context
 
+    const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
 
     const handleLoginMenuOpen = (event: MouseEvent<HTMLElement>) => {
         setLoginAnchorEl(event.currentTarget);
@@ -66,7 +75,37 @@ export const Navbar: FC = () => {
                         {t("menu")}
                     </Button>
                 </Box>
-                <Box className="navbar-settings">                    
+                <Box className="navbar-settings">
+                    {isAuthenticated && (
+                        <>
+                            <IconButton
+                                color={location.pathname === "/Customers" || location.pathname === "/Categories" ? "secondary" : "inherit"}
+                                onClick={handleMenuOpen}
+                            >
+                                <SettingsIcon />
+                            </IconButton>
+                            <Menu
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={handleMenuClose}
+                            >
+                                <MenuItem
+                                    component={Link}
+                                    to="/Customers"
+                                    onClick={handleMenuClose}
+                                >
+                                    {t('customers')}
+                                </MenuItem>
+                                <MenuItem
+                                    component={Link}
+                                    to="/Categories"
+                                    onClick={handleMenuClose}
+                                >
+                                    {t("categories")}
+                                </MenuItem>
+                            </Menu>
+                        </>
+                    )}
                     <IconButton
                         color="inherit"
                         onClick={handleLoginMenuOpen}

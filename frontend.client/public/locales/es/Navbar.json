@@ -1,4 +1,6 @@
 {
+  "customers": "Clientes",
+  "categories": "Categorias",
   "logout": "Cerrar sesión",
   "login": "Iniciar sesión",
   "register": "Registrar",

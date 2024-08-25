@@ -1,0 +1,8 @@
+{
+  "title": "Categorías",
+  "categoryUpdatedSuccessfully": "Categoría actualizada con éxito",
+  "categoryDeletedSuccessfully": "Categoría eliminada con éxito",
+  "errorUpdatingCategory": "Error al actualizar la categoría",
+  "errorDeletingCategory": "Error al eliminar la categoría",
+  "searchCategories": "Buscar Categorías"
+}

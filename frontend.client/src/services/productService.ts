@@ -30,3 +30,21 @@ export const fetchCategoriesWithProducts = async (): Promise<CategoryDto[]> => {
         throw error;
     }
 };
+
+export const createProduct = async (product: ProductDto): Promise<void> => {
+    await axios.post(productUrl, product, {
+        headers: getAuthHeaders()
+    });
+};
+
+export const updateProduct = async (product: ProductDto): Promise<void> => {
+    await axios.put(`${productUrl}/${product.id}`, product, {
+        headers: getAuthHeaders()
+    });
+};
+
+export const deleteProduct = async (id: number): Promise<void> => {
+    await axios.delete(`${productUrl}/${id}`, {
+        headers: getAuthHeaders()
+    });
+};

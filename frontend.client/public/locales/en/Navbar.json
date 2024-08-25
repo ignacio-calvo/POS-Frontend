@@ -1,4 +1,6 @@
 {
+  "customers": "Customers",
+  "categories": "Categories",
   "logout": "Log out",
   "login": "Log in",
   "register": "Register",
