@@ -1,8 +1,0 @@
-{
-  "title": "Categories",
-  "categoryUpdatedSuccessfully": "Category updated successfully",
-  "categoryDeletedSuccessfully": "Category  deleted successfully",
-  "errorUpdatingCategory": "Error updating category ",
-  "errorDeletingCategory": "Error deleting category ",
-  "searchCategories": "Search categories"
-}
