@@ -68,7 +68,12 @@ const CustomerRegistrationForm: React.FC = () => {
                 }
             } catch (error) {
                 if (axios.isAxiosError(error)) {
-                    setSnackbarMessage(error.response?.data?.Message || t('errorOcurred'));
+                    const errorMessage = error.message;
+                    if (errorMessage.includes('User with this email already exists')) {
+                        setSnackbarMessage(t('userExists'));
+                    } else {
+                        setSnackbarMessage(errorMessage || t('errorOcurred'));
+                    }
                     setSeverity('error');
                     setOpen(true);
                 } else {

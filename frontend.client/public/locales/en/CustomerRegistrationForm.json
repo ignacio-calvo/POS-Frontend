@@ -20,5 +20,6 @@
   "password": "Password",
   "repeatPassword": "Repeat Password",
   "phoneNumber": "Phone Number",
-  "register": "Register"
+  "register": "Register",
+  "userExists": "A user with this email already exists"
 }

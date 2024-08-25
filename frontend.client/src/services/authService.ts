@@ -1,5 +1,6 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { CustomerLoginResponseDto } from '../DTOs/CustomerLoginResponseDto';
+import i18n from '../i18n'; // Import the i18n instance
 
 const CUSTOMER_IDENTITY_API_URL: string = import.meta.env.VITE_CUSTOMER_IDENTITY_API_URL || "";
 const loginUrl = `${CUSTOMER_IDENTITY_API_URL}/CustomerIdentity/login`;
@@ -14,11 +15,11 @@ export const login = async (email: string, password: string): Promise<CustomerLo
             localStorage.setItem('jwtToken', token);
             localStorage.setItem('customer', JSON.stringify(customer));
         } else {
-            throw new Error(errorMessage || 'Login failed');
+            throw new AxiosError(errorMessage || i18n.t('authService.loginFailed', { ns: 'common' }));
         }
         return response.data;
     } catch (error) {
-        console.error('Error during login:', error);
+        console.error(i18n.t('authService.loginError', { ns: 'common' }), error);
         throw error;
     }
 };
@@ -31,11 +32,11 @@ export const loginWithGoogle = async (token: string): Promise<CustomerLoginRespo
             localStorage.setItem('jwtToken', jwtToken);
             localStorage.setItem('customer', JSON.stringify(customer));
         } else {
-            throw new Error(errorMessage || 'Google login failed');
+            throw new AxiosError(errorMessage || i18n.t('authService.googleLoginFailed', { ns: 'common' }));
         }
         return response.data;
     } catch (error) {
-        console.error('Error during Google login:', error);
+        console.error(i18n.t('authService.googleLoginError', { ns: 'common' }), error);
         throw error;
     }
 };
@@ -63,11 +64,14 @@ export const register = async (
             localStorage.setItem('jwtToken', token);
             localStorage.setItem('customer', JSON.stringify(customer));
         } else {
-            throw new Error(errorMessage || 'Registration failed');
+            throw new AxiosError(errorMessage || i18n.t('authService.registrationFailed', { ns: 'common' }));
         }
         return response.data;
     } catch (error) {
-        console.error('Error during registration:', error);
+        if (axios.isAxiosError(error) && error.response?.status === 409) {
+            throw new AxiosError(i18n.t('authService.userExists', { ns: 'common' }));
+        }
+        console.error(i18n.t('authService.registrationError', { ns: 'common' }), error);
         throw error;
     }
 };
