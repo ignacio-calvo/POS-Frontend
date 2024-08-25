@@ -1,4 +1,13 @@
 {
   "loading": "Loading...",
-  "error": "Error: {{message}}"
+  "error": "Error: {{message}}",
+  "authService": {
+    "loginFailed": "Login failed",
+    "loginError": "Error during login:",
+    "googleLoginFailed": "Google login failed",
+    "googleLoginError": "Error during Google login:",
+    "registrationFailed": "Registration failed",
+    "userExists": "User with this email already exists.",
+    "registrationError": "Error during registration:"
+  }
 }

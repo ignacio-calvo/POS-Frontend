@@ -25,7 +25,7 @@ export const MenuProductsComponent: FC<Props> = ({ products }) => {
     return (
         <div>
             <TextField
-                label={t('searchProducts')}
+                label={t('search')}
                 value={searchQuery}
                 onChange={handleFilterChange}
                 InputProps={{

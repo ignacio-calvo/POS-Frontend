@@ -1,4 +1,13 @@
 {
   "loading": "Cargando...",
-  "error": "Error: {{message}}"
+  "error": "Error: {{message}}",
+  "authService": {
+    "loginFailed": "Error al iniciar sesión",
+    "loginError": "Error durante el inicio de sesión:",
+    "googleLoginFailed": "Error al iniciar sesión con Google",
+    "googleLoginError": "Error durante el inicio de sesión con Google:",
+    "registrationFailed": "Error al registrarse",
+    "userExists": "El usuario con este correo electrónico ya existe.",
+    "registrationError": "Error durante el registro:"
+  }
 }

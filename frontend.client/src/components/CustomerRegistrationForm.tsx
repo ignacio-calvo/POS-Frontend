@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { register, login } from '../services/authService';
+import { register } from '../services/authService';
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -68,7 +68,12 @@ const CustomerRegistrationForm: React.FC = () => {
                 }
             } catch (error) {
                 if (axios.isAxiosError(error)) {
-                    setSnackbarMessage(error.response?.data?.Message || t('errorOcurred'));
+                    const errorMessage = error.message;
+                    if (errorMessage.includes('User with this email already exists')) {
+                        setSnackbarMessage(t('userExists'));
+                    } else {
+                        setSnackbarMessage(errorMessage || t('errorOcurred'));
+                    }
                     setSeverity('error');
                     setOpen(true);
                 } else {

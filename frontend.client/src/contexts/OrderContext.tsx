@@ -6,6 +6,7 @@ interface OrderContextType {
     order: OrderDto;
     addOrderLine: (orderLine: OrderLineDto) => void;
     removeOrderLine: (orderLineId: number) => void;
+    emptyOrder: () => void;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -40,8 +41,15 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setOrder(newOrder);
     };
 
+    const emptyOrder = () => {
+        const newOrder = new Order(0);
+        Object.assign(newOrder, order);
+        newOrder.emptyOrder();
+        setOrder(newOrder);
+    };
+
     return (
-        <OrderContext.Provider value={{ order, addOrderLine, removeOrderLine }}>
+        <OrderContext.Provider value={{ order, addOrderLine, removeOrderLine, emptyOrder }}>
             {children}
         </OrderContext.Provider>
     );

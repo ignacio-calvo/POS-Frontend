@@ -1,3 +1,6 @@
 {
-  "title": "Carrito"
+  "title": "Carrito",
+  "emptyCart": "Vaciar Carrito",
+  "cartIsEmpty": "El carrito está vacío.",
+  "submitOrder": "Enviar Pedido"
 }
